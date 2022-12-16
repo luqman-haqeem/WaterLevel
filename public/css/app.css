@@ -8133,6 +8133,10 @@ textarea.form-control-lg {
   --bs-bg-opacity: 1;
   background-color: rgba(var(--bs-success-rgb), var(--bs-bg-opacity)) !important;
 }
+.bg-orange {
+  --bs-bg-opacity: 1;
+  background-color:#fd7e14 !important;
+}
 
 .bg-info {
   --bs-bg-opacity: 1;
