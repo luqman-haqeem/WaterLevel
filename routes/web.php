@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\StationController;
+use App\Http\Controllers\SubscriptionController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,10 +15,22 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+Route::get('/', [App\Http\Controllers\StationController::class, 'index']);
 
 Auth::routes();
+
+
+Route::group(['middleware' => 'auth'], function () {
+    Route::resource('subscriptions', SubscriptionController::class);
+});
+
+
+
+Route::get('/list-stations', [App\Http\Controllers\StationController::class, 'listStations'])->name('list-stations');
+
+Route::resource('stations', StationController::class);
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
