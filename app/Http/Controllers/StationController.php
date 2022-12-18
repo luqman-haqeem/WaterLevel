@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Station;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class StationController extends Controller
 {
@@ -14,6 +15,7 @@ class StationController extends Controller
      */
     public function index()
     {
+
         //
         $stations = Station::query();
         if (request('term')) {
