@@ -22,6 +22,10 @@ Route::get('/', [App\Http\Controllers\StationController::class, 'index']);
 
 Auth::routes();
 
+// Route::get('auth/google', 'Auth\GoogleController@redirectToGoogle');
+Route::get('auth/google', [App\Http\Controllers\Auth\GoogleController::class, 'redirectToGoogle']);
+// Route::get('auth/google/callback', 'Auth\GoogleController@handleGoogleCallback');
+Route::get('auth/google/callback', [App\Http\Controllers\Auth\GoogleController::class, 'handleGoogleCallback']);
 
 Route::group(['middleware' => 'auth'], function () {
     Route::resource('subscriptions', SubscriptionController::class);
