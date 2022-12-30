@@ -17,7 +17,7 @@ class CreateCurrentLevelTable extends Migration
             $table->id();
             $table->foreignId('station_id')->constrained('station');
             $table->double('current_level',8,2);
-            $table->int('alert_level');
+            $table->integer('alert_level');
 
             $table->timestamps();
         });
