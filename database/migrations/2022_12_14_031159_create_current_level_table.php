@@ -15,7 +15,7 @@ class CreateCurrentLevelTable extends Migration
     {
         Schema::create('current_levels', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('station_id')->constrained('station');
+            $table->foreignId('station_id')->constrained('stations');
             $table->double('current_level',8,2);
             $table->integer('alert_level');
 
