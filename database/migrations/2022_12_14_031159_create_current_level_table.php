@@ -30,6 +30,6 @@ class CreateCurrentLevelTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('current_level');
+        Schema::dropIfExists('current_levels');
     }
 }
