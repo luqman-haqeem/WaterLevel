@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Station;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
 
 class StationController extends Controller
 {
@@ -22,8 +23,8 @@ class StationController extends Controller
             $stations->where('station_name', 'Like', '%' . request('term') . '%');
         }
         $stations = $stations->sortable()->paginate(10);
-    
-        return view('station.index',compact('stations'))
+
+        return view('station.index', compact('stations'))
             ->with('i', (request()->input('page', 1) - 1) * 5);
     }
 
@@ -59,8 +60,7 @@ class StationController extends Controller
     {
         //
         // dd($station);
-        return view('station.show',compact('station'));
-
+        return view('station.show', compact('station'));
     }
 
     /**
