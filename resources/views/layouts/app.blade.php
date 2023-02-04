@@ -14,7 +14,7 @@
     <script src="{{ asset('js/app.js') }}" defer></script>
 
     {{-- Bootscrap Icon --}}
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css">
+    {{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css"> --}}
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -25,12 +25,22 @@
 
     <!-- Select2 Styles -->
     {{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" /> --}}
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" />
+    {{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" />
     <link rel="stylesheet"
-        href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
+        href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" /> --}}
+
+
 </head>
 
 <body>
+    <style>
+        .bg-orange {
+            --bs-bg-opacity: 1;
+            background-color: #fd7e14 !important;
+        }
+    </style>
+    @yield('style')
+
     <div id="app">
         {{-- <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
@@ -108,6 +118,13 @@
 
                                 </a>
                             </li>
+                            <li>
+                                <a href="{{ route('cameras.index') }}" class="nav-link py-3 px-2" title=""
+                                    data-bs-toggle="tooltip" data-bs-placement="right"
+                                    data-bs-original-title="Subscription">
+                                    <i class="bi bi-camera-video fs-1"></i>
+                                </a>
+                            </li>
 
                             @auth
                                 <li>
@@ -117,6 +134,7 @@
                                         <i class="bi-heart fs-1"></i>
                                     </a>
                                 </li>
+
                             @endauth
 
 
@@ -187,6 +205,9 @@
             </div>
         </div>
     </div>
+
+    @yield('scripts')
+
 </body>
 
 </html>

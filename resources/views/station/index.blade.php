@@ -21,34 +21,35 @@
 
                         <div class="row pb-3">
                             <div class="col">
-                                <form class="d-flex float-end"  action="{{ route('stations.index') }}" method="GET">
-                                    <input class="form-control me-1" type="search" placeholder="Search" aria-label="Search" id="term" name="term">
+                                <form class="d-flex float-end" action="{{ route('stations.index') }}" method="GET">
+                                    <input class="form-control me-1" type="search" placeholder="Search" aria-label="Search"
+                                        id="term" name="term">
                                     <button class="btn btn-primary me-1" type="submit">Search</button>
-                                    <a  href="{{ route('stations.index') }}" class="btn btn-danger ">Reset</a>
-                                  </form>
+                                    <a href="{{ route('stations.index') }}" class="btn btn-danger ">Reset</a>
+                                </form>
                             </div>
                         </div>
 
                         <table class="table table-bordered">
                             <tr>
                                 <th>{{ __('No') }}</th>
-                                <th> @sortablelink('station_name',trans('Station Name'))</th>
-                                <th> @sortablelink('district',trans('District'))</th>
+                                <th> @sortablelink('station_name', trans('Station Name'))</th>
+                                <th> @sortablelink('district', trans('District'))</th>
                                 <th>{{ __('Action') }}</th>
                             </tr>
                             @foreach ($stations as $station)
                                 <tr>
                                     <td>{{ ++$i }}</td>
                                     <td>{{ $station->station_name }}</td>
-                                    <td>{{ $station->district }}</td>
+                                    <td>{{ $station->district->name }}</td>
                                     <td>
                                         <form action="" method="POST">
 
                                             <a class="btn btn-info"
                                                 href="{{ route('stations.show', $station->id) }}">Show</a>
 
-                                            {{-- <a class="btn btn-primary" href="">Edit</a> --}}
-
+                                            {{-- <a class="btn btn-warning" href="">Edit</a> --}}
+                                           
                                             {{-- @csrf
                                             @method('DELETE')
                
