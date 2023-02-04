@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CameraController;
 use App\Http\Controllers\StationController;
 use App\Http\Controllers\SubscriptionController;
 use Illuminate\Support\Facades\Route;
@@ -22,6 +23,7 @@ Route::get('/', [App\Http\Controllers\StationController::class, 'index']);
 
 Auth::routes();
 
+
 // Route::get('auth/google', 'Auth\GoogleController@redirectToGoogle');
 Route::get('auth/google', [App\Http\Controllers\Auth\GoogleController::class, 'redirectToGoogle']);
 // Route::get('auth/google/callback', 'Auth\GoogleController@handleGoogleCallback');
@@ -32,6 +34,7 @@ Route::group(['middleware' => 'auth'], function () {
 });
 
 
+Route::resource('cameras', CameraController::class);
 
 Route::get('/list-stations', [App\Http\Controllers\StationController::class, 'listStations'])->name('list-stations');
 
