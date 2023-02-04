@@ -15,15 +15,20 @@ class CreateStationTable extends Migration
     {
         Schema::create('stations', function (Blueprint $table) {
             $table->id();
-            $table->string('external_station_id');
+            $table->integer('JPS_sel_id');
+            $table->string('public_info_id');
+            $table->string('district_id');
             $table->string('station_name');
-            $table->string('district');
-            $table->string('main_basin');
-            $table->string('subriver_basin');
-            $table->double('normal_water_level',);
-            $table->double('alert_water_level',);
-            $table->double('warning_water_level',);
-            $table->double('danger_water_level',);
+            $table->string('station_code');
+            $table->string('ref_name');
+            $table->string('latitude');
+            $table->string('longitude');
+            $table->string('gsmNumber');
+            $table->double('normal_water_level',8,2);
+            $table->double('alert_water_level',8,2);
+            $table->double('warning_water_level',8,2);
+            $table->double('danger_water_level',8,2);
+
 
             $table->timestamps();
         });

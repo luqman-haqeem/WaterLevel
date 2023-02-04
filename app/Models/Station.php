@@ -16,4 +16,12 @@ class Station extends Model
     {
         return $this->hasOne(CurrentLevel::class);
     }
+    public function district()
+    {
+        return $this->belongsTo(Districts::class);
+    }
+    public function camera()
+    {
+        return $this->hasOne(Camera::class);
+    }
 }
