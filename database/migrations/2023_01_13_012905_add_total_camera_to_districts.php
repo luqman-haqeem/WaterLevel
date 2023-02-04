@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddTotalStationToDistricts extends Migration
+class AddTotalCameraToDistricts extends Migration
 {
     /**
      * Run the migrations.
@@ -15,7 +15,7 @@ class AddTotalStationToDistricts extends Migration
     {
         Schema::table('districts', function (Blueprint $table) {
             //
-            $table->integer('total_station')->default(0);
+            $table->integer('total_camera')->default(0);
 
         });
     }
