@@ -33,6 +33,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('subscriptions', SubscriptionController::class);
 });
 
+Route::get('/show-img/{filename}', [App\Http\Controllers\CameraController::class, 'showImg'])->name('camera.show-img');
 
 Route::resource('cameras', CameraController::class);
 

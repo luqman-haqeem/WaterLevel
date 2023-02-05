@@ -9,7 +9,7 @@
         .placeholder {
             position: relative;
             width: 100%;
-            filter: blur(10px);
+            /* filter: blur(10px); */
             transform: scale(1);
         }
 
@@ -36,12 +36,13 @@
 
                     @if (empty($camera->img_url))
                         <div class="image-container" data-large="{{ asset('images/nocctv.png') }}">
-                            <img class="placeholder" src="{{ asset('images/img-placeholder.jpeg') }}" class="img-small"
+                            <img class="placeholder" src="{{ asset('images/img-placeholder2.jpg') }}" class="img-small"
                                 alt="Station Img">
                         </div>
                     @else
-                        <div class="image-container" data-large="{{ $camera->img_url }}">
-                            <img class="placeholder" src="{{ asset('images/img-placeholder.jpeg') }}" class="img-small"
+                        <div class="image-container" data-large="{{  route('camera.show-img', $camera->JPS_camera_id) }}">
+                        {{-- <div class="image-container" data-large="{{ $camera->img_url }}"> --}}
+                            <img class="placeholder" src="{{ asset('images/img-placeholder2.jpg') }}" class="img-small"
                                 alt="Station Img">
                         </div>
                     @endif

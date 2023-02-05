@@ -56,6 +56,8 @@ class CameraController extends Controller
     public function show(Camera $camera)
     {
         //
+        // dd($camera);
+        
         return view('camera.show', compact('camera'));
     }
 
@@ -103,6 +105,13 @@ class CameraController extends Controller
         // dd($request->input());
         return redirect(route('cameras.index'))->with('success', 'Camera Successfully Mapped');
 
+    }
+    public function showImg($imgId)
+    {
+        $image_url = "http://infobanjirjps.selangor.gov.my/InfoBanjir.WebAdmin/CCTV_Image/$imgId.jpg";
+        $image_data = file_get_contents($image_url);
+
+        return response($image_data)->header('Content-Type', 'image/jpeg');
     }
 
     /**

@@ -42,7 +42,8 @@
                                 alt="Station Img">
                         </div>
                     @else
-                        <div class="image-container" data-large="{{ $station->camera->img_url }}">
+                        <div class="image-container"
+                            data-large="{{ route('camera.show-img', $station->camera->JPS_camera_id) }}">
                             <img class="placeholder" src="{{ asset('images/img-placeholder.jpeg') }}" class="img-small"
                                 alt="Station Img">
                         </div>
