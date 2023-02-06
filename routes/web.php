@@ -31,13 +31,18 @@ Route::get('auth/google/callback', [App\Http\Controllers\Auth\GoogleController::
 
 Route::group(['middleware' => 'auth'], function () {
     Route::resource('subscriptions', SubscriptionController::class);
+
+    Route::get('cameras/{camera}/edit', [App\Http\Controllers\CameraController::class, 'edit'])->name('cameras.edit');
+    Route::match(['put', 'patch'], 'cameras/{camera}', 'CameraController@update')->name('cameras.update');
 });
 
 Route::get('/show-img/{filename}', [App\Http\Controllers\CameraController::class, 'showImg'])->name('camera.show-img');
 
-Route::resource('cameras', CameraController::class);
+Route::resource('cameras', CameraController::class, [
+    'only' => ['index', 'show']
+]);
 
-Route::get('/list-stations', [App\Http\Controllers\StationController::class, 'listStations'])->name('list-stations');
+// Route::get('/list-stations', [App\Http\Controllers\StationController::class, 'listStations'])->name('list-stations');
 
 Route::resource('stations', StationController::class);
 

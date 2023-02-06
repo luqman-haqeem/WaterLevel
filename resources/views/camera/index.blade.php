@@ -46,8 +46,10 @@
 
                                             <a class="btn btn-info"
                                                 href="{{ route('cameras.show', $camera->id) }}">Show</a>
-                                                <a class="btn btn-warning"
-                                                href="{{ route('cameras.edit',  $camera->id) }}">Edit
+                                               @if(Auth::user()->is_admin)
+                                               <a class="btn btn-warning"
+                                               href="{{ route('cameras.edit',  $camera->id) }}">Edit
+                                               @endif
                                             </a>
                                             
                                         </form>
