@@ -21,19 +21,20 @@
 
                         <div class="row pb-3">
                             <div class="col">
-                                <form class="d-flex float-end"  action="{{ route('cameras.index') }}" method="GET">
-                                    <input class="form-control me-1" type="search" placeholder="Search" aria-label="Search" id="term" name="term">
+                                <form class="d-flex float-end" action="{{ route('cameras.index') }}" method="GET">
+                                    <input class="form-control me-1" type="search" placeholder="Search" aria-label="Search"
+                                        id="term" name="term">
                                     <button class="btn btn-primary me-1" type="submit">Search</button>
-                                    <a  href="{{ route('cameras.index') }}" class="btn btn-danger ">Reset</a>
-                                  </form>
+                                    <a href="{{ route('cameras.index') }}" class="btn btn-danger ">Reset</a>
+                                </form>
                             </div>
                         </div>
 
                         <table class="table table-bordered">
                             <tr>
                                 <th>{{ __('No') }}</th>
-                                <th> @sortablelink('camera_name',trans('Camera Name'))</th>
-                                <th> @sortablelink('district',trans('District'))</th>
+                                <th> @sortablelink('camera_name', trans('Camera Name'))</th>
+                                <th> @sortablelink('district', trans('District'))</th>
                                 <th>{{ __('Action') }}</th>
                             </tr>
                             @foreach ($cameras as $camera)
@@ -46,12 +47,14 @@
 
                                             <a class="btn btn-info"
                                                 href="{{ route('cameras.show', $camera->id) }}">Show</a>
-                                               @if(Auth::user()->is_admin)
-                                               <a class="btn btn-warning"
-                                               href="{{ route('cameras.edit',  $camera->id) }}">Edit
-                                               @endif
+                                            @auth
+                                                @if (Auth::user()->is_admin)
+                                                    <a class="btn btn-warning"
+                                                        href="{{ route('cameras.edit', $camera->id) }}">Edit
+                                                @endif
+                                            @endauth
                                             </a>
-                                            
+
                                         </form>
                                     </td>
                                 </tr>
