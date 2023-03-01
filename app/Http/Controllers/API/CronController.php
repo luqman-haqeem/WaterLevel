@@ -20,7 +20,6 @@ class CronController extends Controller
     public function update()
     {
         //
-
         $districts = Districts::all();
 
         foreach ($districts as $district) {
@@ -45,16 +44,10 @@ class CronController extends Controller
             $stationsJps  = json_decode($response);
 
             foreach ($stationsJps->stations as $stationJps) {
-                // dd($stationsJps->stations);
-                // var_dump($stationJps); 
                 $station = Station::where('JPS_sel_id', $stationJps->id)->first();
                 if (empty($station)) {
                 } else {
-                    // dd($station->id);
-
                     $currentLevel = CurrentLevel::where('station_id', $station->id)->first();
-                    // dd($currentLevel);
-
                     $currentLevel->update(
                         [
                             'current_level' => $stationJps->waterLevel,
@@ -63,10 +56,6 @@ class CronController extends Controller
                     );
                 }
             }
-
-            // dd('done');
-
-
         }
         return response()->noContent();
     }
