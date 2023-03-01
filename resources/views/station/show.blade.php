@@ -50,7 +50,7 @@
                     @endif
 
                     <div class="card-body">
-                        <h5 class="card-title">{{ $station->station_name }}
+                        <h5 class="card-title">{{ $station->station_name }} 
 
                             <div class="float-end">
                                 <span class="badge bg-info " id="alert-badge">{{ $station->normal_water_level }}m</span>
@@ -77,7 +77,10 @@
                             @else
                                 <span class="badge bg-info" id="alert-badge">Normal</span>
                             @endif
+                        <span class="fw-light"> {{ $station->current_level->updated_at->diffForHumans() }}</span>
+
                         </p>
+                        
 
                     </div>
                 </div>
