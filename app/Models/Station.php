@@ -10,7 +10,7 @@ class Station extends Model
 {
     use HasFactory, Sortable;
 
-    public $sortable = ['id', 'station_name', 'district'];
+    public $sortable = ['id', 'station_name', 'district_id'];
 
     public function current_level()
     {

@@ -34,7 +34,8 @@
                             <tr>
                                 <th>{{ __('No') }}</th>
                                 <th> @sortablelink('station_name', trans('Station Name'))</th>
-                                <th> @sortablelink('district', trans('District'))</th>
+                                <th> @sortablelink('district_id', trans('District'))</th>
+                                <th> @sortablelink('current_level.alert_level', trans('Alert'))</th>
                                 <th>{{ __('Action') }}</th>
                             </tr>
                             @foreach ($stations as $station)
@@ -43,13 +44,25 @@
                                     <td>{{ $station->station_name }}</td>
                                     <td>{{ $station->district->name }}</td>
                                     <td>
+
+                                        @if ($station->current_level->alert_level == 1)
+                                            <span class="badge bg-danger" id="alert-badge">Danger</span>
+                                        @elseif($station->current_level->alert_level == 2)
+                                            <span class="badge bg-orange" id="alert-badge">Warning</span>
+                                        @elseif($station->current_level->alert_level == 3)
+                                            <span class="badge bg-warning" id="alert-badge">Alert</span>
+                                        @else
+                                            <span class="badge bg-info" id="alert-badge">Normal</span>
+                                        @endif
+                                    </td>
+                                    <td>
                                         <form action="" method="POST">
 
                                             <a class="btn btn-info"
                                                 href="{{ route('stations.show', $station->id) }}">Show</a>
 
                                             {{-- <a class="btn btn-warning" href="">Edit</a> --}}
-                                           
+
                                             {{-- @csrf
                                             @method('DELETE')
                
