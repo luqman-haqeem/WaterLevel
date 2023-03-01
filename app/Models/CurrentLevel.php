@@ -11,6 +11,7 @@ class CurrentLevel extends Model
 
     use HasFactory,Sortable;
     public $sortable = ['alert_level', 'updated_at'];
+    public $fillable = ['current_level', 'alert_level'];
 
     public function station()
     {
