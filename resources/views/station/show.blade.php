@@ -50,8 +50,11 @@
                     @endif
 
                     <div class="card-body">
-                        <h5 class="card-title">{{ $station->station_name }} 
+                        <div class="d-flex ">
+                            <h5 class="card-title flex-grow-1">{{ $station->station_name }} 
 
+                              
+                            </h5>
                             <div class="float-end">
                                 <span class="badge bg-info " id="alert-badge">{{ $station->normal_water_level }}m</span>
 
@@ -62,7 +65,9 @@
                                 <span class="badge bg-danger" id="alert-badge"> >{{ $station->danger_water_level }}m</span>
 
                             </div>
-                        </h5>
+                        </div>
+
+                        
                         <h6 class="card-subtitle mb-2 text-muted">
                             {{ $station->district->name }}</h6>
 
