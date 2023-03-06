@@ -71,10 +71,10 @@ class SubscriptionController extends Controller
 
 
             $status = 'success';
-            $message = 'Subscription created successfully.';
+            $message = 'Successfully subscribe to this station.';
         } else {
             $status = 'error';
-            $message = 'Subscription Already Exist.';
+            $message = 'Your Already Subscribe to this station';
         }
 
         return redirect()->route('subscriptions.index')
@@ -128,6 +128,6 @@ class SubscriptionController extends Controller
         $subscription->delete();
 
         return redirect()->route('subscriptions.index')
-            ->with('success', 'Subscription deleted successfully');
+            ->with('success', 'Successfully Removed Subscription');
     }
 }
