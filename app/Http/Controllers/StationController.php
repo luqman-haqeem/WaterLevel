@@ -20,10 +20,21 @@ class StationController extends Controller
 
         //
         $stations = Station::query();
+        // $stations->select('station.*');
+        
         if (request('term')) {
             $stations->where('station_name', 'Like', '%' . request('term') . '%');
         }
-        $stations = $stations->sortable()->paginate(10);
+        // sort
+        if (request('sort')) {
+
+            $order = request('order') ?? 'asc';
+            if (request('sort') == 'station') {
+                $stations->orderBy('station_name',$order);
+            }
+           
+        }
+        $stations = $stations->sortable()->paginate(10)->withQueryString();
 
         return view('station.index', compact('stations'))
             ->with('i', (request()->input('page', 1) - 1) * 5);

@@ -20,11 +20,19 @@ class CameraController extends Controller
      */
     public function index()
     {
-        
+
         //
         $cameras = Camera::query();
         if (request('term')) {
             $cameras->where('camera_name', 'Like', '%' . request('term') . '%');
+        }
+        // sort
+        if (request('sort')) {
+
+            $order = request('order') ?? 'asc';
+            if (request('sort') == 'station') {
+                $cameras->orderBy('camera_name', $order);
+            }
         }
         $cameras = $cameras->sortable()->paginate(10);
 
@@ -63,7 +71,7 @@ class CameraController extends Controller
     {
         //
         // dd($camera);
-        
+
         return view('camera.show', compact('camera'));
     }
 
@@ -110,7 +118,6 @@ class CameraController extends Controller
 
         // dd($request->input());
         return redirect(route('cameras.index'))->with('success', 'Camera Successfully Mapped');
-
     }
     public function showImg($imgId)
     {
