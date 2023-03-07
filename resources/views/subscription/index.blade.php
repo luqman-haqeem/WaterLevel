@@ -8,8 +8,8 @@
                 <div class="card">
                     <div class="card-header">{{ __('Subscription List') }}
                         <div class="float-end">
-                            <a class="btn btn-success" href="{{ route('subscriptions.create') }}">
-                                {{ __('Create New Subscription') }}
+                            <a class="btn btn-outline-success" href="{{ route('subscriptions.create') }}">
+                                {{ __('Add Station') }}
                             </a>
                         </div>
                     </div>
@@ -31,33 +31,55 @@
                             </div>
                         @endif
                         <div class="row pb-3">
-                            <div class="col">
-                                <form class="d-flex float-end" action="{{ route('subscriptions.index') }}" method="GET">
-                                    <input class="form-control me-1" type="search" placeholder="Search" aria-label="Search"
-                                        id="term" name="term">
-                                    <button class="btn btn-primary me-1" type="submit">Search</button>
-                                    <a href="{{ route('subscriptions.index') }}" class="btn btn-danger ">Reset</a>
-                                </form>
+
+                            <div class="d-flex ">
+                                {{-- <div class="me-auto">
+                                    <div class="dropdown">
+                                        <button class="btn btn-outline-primary dropdown-toggle" type="button"
+                                            id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                            Sort By
+                                        </button>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                            <li><a class="dropdown-item"
+                                                    href="{{ route('subscriptions.index') . '?sort=station&order=asc' }}">Name
+                                                    (ascending)</a></li>
+                                            <li><a class="dropdown-item"
+                                                    href="{{ route('subscriptions.index') . '?sort=station&order=desc' }}">Name
+                                                    (desending)</a></li>
+                                            
+                                        </ul>
+                                    </div>
+                                </div> --}}
+                                <div>
+                                    <form class="d-flex  float-end" action="{{ route('subscriptions.index') }}"
+                                        method="GET">
+                                        <input class="form-control me-1" type="search" placeholder="Search Name"
+                                            aria-label="Search Name" id="term" name="term">
+                                        <button class="btn btn-outline-primary me-1" type="submit"><i
+                                                class="bi bi-search"></i></button>
+                                        <a href="{{ route('subscriptions.index') }}" class="btn btn-outline-danger "><i
+                                                class="bi bi-x"></i>
+                                        </a>
+
+                                    </form>
+                                </div>
                             </div>
                         </div>
 
-                        <table class="table table-bordered">
-                            <tr>
-                                <th>No</th>
-                                {{-- <th>User Name</th> --}}
-                                <th> @sortablelink('station.station_name',trans('Station Name'))</th>
-                                <th> @sortablelink('station.alert_level',trans('Station Status'))</th>
-                                <th> @sortablelink('station.updated_at',trans('Last Updated'))</th>
-
-                                {{-- <th>Last Updated</th> --}}
-                                <th>Action</th>
-                            </tr>
+                        {{-- <div class="list-group">
                             @foreach ($subscriptions as $subscription)
-                                <tr>
-                                    <td>{{ ++$i }}</td>
-                                    <td>{{ $subscription->station->station_name }}</td>
-                                    <td>
-                                        {{ $subscription->station->current_level->current_level }}
+                                <a href="{{ route('stations.show', $subscription->id) }}"
+                                    class="list-group-item list-group-item-action">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h5 class="mb-1">{{ $subscription->station->station_name }}
+                                        </h5>
+                                        <small
+                                            class="text-muted">{{ $subscription->station->current_level->updated_at->diffForHumans() }}</small>
+                                    </div>
+                                    <p class="mb-1">{{ $subscription->station->district->name }}</p>
+                                    <small class="text-muted"> Water Level:
+                                        {{ $subscription->station->current_level->current_level }}m
+
                                         @if ($subscription->station->current_level->alert_level == 1)
                                             <span class="badge bg-danger" id="alert-badge">Danger</span>
                                         @elseif($subscription->station->current_level->alert_level == 2)
@@ -68,29 +90,53 @@
                                             <span class="badge bg-info" id="alert-badge">Normal</span>
                                         @endif
 
-                                    </td>
-                                    <td>
-                                        {{ $subscription->station->current_level->updated_at->diffForHumans() }}
-                                    </td>
-                                    <td>
-                                        <form action="{{ route('subscriptions.destroy', $subscription->id) }}"
-                                            method="POST">
+                                    </small>
 
-                                            <a class="btn btn-info"
-                                                href="{{ route('stations.show', $subscription->station_id) }}">Show</a>
-
-                                            {{-- <a class="btn btn-primary" href="">Edit</a> --}}
-
+                                    @csrf
+                                    @method('DELETE')
+                                </a>
+                            @endforeach
+                        </div> --}}
+                        <div class="list-group">
+                            @foreach ($subscriptions as $subscription)
+                                <a href="{{ route('stations.show', $subscription->id) }}"
+                                    class="list-group-item list-group-item-action">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h5 class="mb-1">{{ $subscription->station->station_name }}</h5>
+                                        <small
+                                            class="text-muted">{{ $subscription->station->current_level->updated_at->diffForHumans() }}</small>
+                                    </div>
+                                    <p class="mb-1">{{ $subscription->station->district->name }}</p>
+                                    <small class="text-muted"> Water Level:
+                                        {{ $subscription->station->current_level->current_level }}m
+                        
+                                        @if ($subscription->station->current_level->alert_level == 1)
+                                            <span class="badge bg-danger" id="alert-badge">Danger</span>
+                                        @elseif($subscription->station->current_level->alert_level == 2)
+                                            <span class="badge bg-orange" id="alert-badge">Warning</span>
+                                        @elseif($subscription->station->current_level->alert_level == 3)
+                                            <span class="badge bg-warning" id="alert-badge">Alert</span>
+                                        @else
+                                            <span class="badge bg-info" id="alert-badge">Normal</span>
+                                        @endif
+                        
+                                    </small>
+                        
+                                    <div class="float-end">
+                                        <form action="{{ route('subscriptions.destroy', $subscription->id) }}" method="POST">
                                             @csrf
                                             @method('DELETE')
-
-                                            <button type="submit" class="btn btn-danger">Delete</button>
+                                            <button type="submit" class="reset-btn-style text-danger" ><i class="bi bi-trash3"></i></button>
                                         </form>
-                                    </td>
-                                </tr>
+                                        
+                                    </div>
+                                </a>
                             @endforeach
-                        </table>
-                        {!! $subscriptions->links() !!}
+                        </div>
+                        
+                        {{-- <div style="padding-top:10px;">{!! $stations->links() !!}</div> --}}
+                        <div style="padding-top:10px;">{{ $subscriptions->onEachSide(2)->links() }}</div>
+
 
                     </div>
                 </div>

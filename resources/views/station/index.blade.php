@@ -19,31 +19,78 @@
                             </div>
                         @endif
 
+
                         <div class="row pb-3">
-                            <div class="col">
-                                <form class="d-flex float-end" action="{{ route('stations.index') }}" method="GET">
-                                    <input class="form-control me-1" type="search" placeholder="Search" aria-label="Search"
-                                        id="term" name="term">
-                                    <button class="btn btn-primary me-1" type="submit">Search</button>
-                                    <a href="{{ route('stations.index') }}" class="btn btn-danger ">Reset</a>
-                                </form>
+                            <div class="d-flex ">
+                                <div class="me-auto pe-1">
+                                    <div class="dropdown">
+                                        <button class="btn btn-outline-primary dropdown-toggle" type="button"
+                                            id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                            Sort By
+                                        </button>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                            <li><a class="dropdown-item"
+                                                    href="{{ route('stations.index') . '?sort=station&order=asc' }}">Name
+                                                    (ascending)</a></li>
+                                            <li><a class="dropdown-item"
+                                                    href="{{ route('stations.index') . '?sort=station&order=desc' }}">Name
+                                                    (desending)</a></li>
+                                            {{-- <li><a class="dropdown-item"
+                                                    href="{{ route('stations.index') . '?sort=district' }}">District
+                                                    (ascending)</a></li>
+                                            <li><a class="dropdown-item"
+                                                    href="{{ route('stations.index') . '?sort=alert' }}">Alert (ascending)</a>
+                                            </li> --}}
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div>
+                                    <form class="d-flex  float-end" action="{{ route('stations.index') }}" method="GET">
+                                        <input class="form-control me-1" type="search" placeholder="Search Name"
+                                            aria-label="Search Name" id="term" name="term">
+                                        <button class="btn btn-outline-primary me-1" type="submit"><i
+                                                class="bi bi-search"></i></button>
+                                        <a href="{{ route('stations.index') }}" class="btn btn-outline-danger "><i
+                                                class="bi bi-x"></i>
+                                        </a>
+
+                                    </form>
+                                </div>
                             </div>
+
                         </div>
 
-                        <table class="table table-bordered">
-                            <tr>
-                                <th>{{ __('No') }}</th>
-                                <th> @sortablelink('station_name', trans('Station Name'))</th>
-                                <th> @sortablelink('district_id', trans('District'))</th>
-                                <th> @sortablelink('current_level.alert_level', trans('Alert'))</th>
-                                <th>{{ __('Action') }}</th>
-                            </tr>
+
+                        <div class="list-group">
+
+
+                            {{-- <a href="#" class="list-group-item list-group-item-action active" aria-current="true">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h5 class="mb-1">List group item heading</h5>
+                                    <small>3 days ago</small>
+                                </div>
+                                <p class="mb-1">Some placeholder content in a paragraph.</p>
+                                <small>And some small print.</small>
+                            </a> --}}
+                            {{-- <a href="#" class="list-group-item list-group-item-action">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h5 class="mb-1">List group item heading</h5>
+                                    <small class="text-muted">3 days ago</small>
+                                </div>
+                                <p class="mb-1">Some placeholder content in a paragraph.</p>
+                                <small class="text-muted">And some muted small print.</small>
+                            </a> --}}
                             @foreach ($stations as $station)
-                                <tr>
-                                    <td>{{ ++$i }}</td>
-                                    <td>{{ $station->station_name }}</td>
-                                    <td>{{ $station->district->name }}</td>
-                                    <td>
+                                <a href="{{ route('stations.show', $station->id) }}"
+                                    class="list-group-item list-group-item-action">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h5 class="mb-1">{{ $station->station_name }}
+                                        </h5>
+                                        <small
+                                            class="text-muted">{{ $station->current_level->updated_at->diffForHumans() }}</small>
+                                    </div>
+                                    <p class="mb-1">{{ $station->district->name }}</p>
+                                    <small class="text-muted"> Water Level: {{ $station->current_level->current_level }}m
 
                                         @if ($station->current_level->alert_level == 1)
                                             <span class="badge bg-danger" id="alert-badge">Danger</span>
@@ -54,25 +101,12 @@
                                         @else
                                             <span class="badge bg-info" id="alert-badge">Normal</span>
                                         @endif
-                                    </td>
-                                    <td>
-                                        <form action="" method="POST">
-
-                                            <a class="btn btn-info"
-                                                href="{{ route('stations.show', $station->id) }}">Show</a>
-
-                                            {{-- <a class="btn btn-warning" href="">Edit</a> --}}
-
-                                            {{-- @csrf
-                                            @method('DELETE')
-               
-                                            <button type="submit" class="btn btn-danger">Delete</button> --}}
-                                        </form>
-                                    </td>
-                                </tr>
+                                    </small>
+                                </a>
                             @endforeach
-                        </table>
-                        {!! $stations->links() !!}
+                        </div>
+                        {{-- <div style="padding-top:10px;">{!! $stations->links() !!}</div> --}}
+                        <div style="padding-top:10px;">{{ $stations->onEachSide(2)->links() }}</div>
 
                     </div>
                 </div>

@@ -19,7 +19,7 @@
                             </div>
                         @endif
 
-                        <div class="row pb-3">
+                        {{-- <div class="row pb-3">
                             <div class="col">
                                 <form class="d-flex float-end" action="{{ route('cameras.index') }}" method="GET">
                                     <input class="form-control me-1" type="search" placeholder="Search" aria-label="Search"
@@ -28,39 +28,60 @@
                                     <a href="{{ route('cameras.index') }}" class="btn btn-danger ">Reset</a>
                                 </form>
                             </div>
+                        </div> --}}
+                        <div class="row pb-3">
+                            <div class="d-flex ">
+                                <div class="me-auto">
+                                    <div class="dropdown">
+                                        <button class="btn btn-outline-primary dropdown-toggle" type="button"
+                                            id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                            Sort By
+                                        </button>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                            <li><a class="dropdown-item"
+                                                    href="{{ route('cameras.index') . '?sort=station&order=asc' }}">Name
+                                                    (ascending)</a></li>
+                                            <li><a class="dropdown-item"
+                                                    href="{{ route('cameras.index') . '?sort=station&order=desc' }}">Name
+                                                    (desending)</a></li>
+                                         
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div>
+                                    <form class="d-flex  float-end" action="{{ route('cameras.index') }}" method="GET">
+                                        <input class="form-control me-1" type="search" placeholder="Search Name"
+                                            aria-label="Search Name" id="term" name="term">
+                                        <button class="btn btn-outline-primary me-1" type="submit"><i
+                                                class="bi bi-search"></i></button>
+                                        <a href="{{ route('cameras.index') }}" class="btn btn-outline-danger "><i
+                                                class="bi bi-x"></i>
+                                        </a>
+
+                                    </form>
+                                </div>
+                            </div>
+
                         </div>
 
-                        <table class="table table-bordered">
-                            <tr>
-                                <th>{{ __('No') }}</th>
-                                <th> @sortablelink('camera_name', trans('Camera Name'))</th>
-                                <th> @sortablelink('district', trans('District'))</th>
-                                <th>{{ __('Action') }}</th>
-                            </tr>
+                        <div class="list-group">
                             @foreach ($cameras as $camera)
-                                <tr>
-                                    <td>{{ ++$i }}</td>
-                                    <td>{{ $camera->camera_name }}</td>
-                                    <td>{{ $camera->district->name }}</td>
-                                    <td>
-                                        <form action="" method="POST">
-
-                                            <a class="btn btn-info"
-                                                href="{{ route('cameras.show', $camera->id) }}">Show</a>
-                                            @auth
-                                                @if (Auth::user()->is_admin)
-                                                    <a class="btn btn-warning"
-                                                        href="{{ route('cameras.edit', $camera->id) }}">Edit
-                                                @endif
-                                            @endauth
-                                            </a>
-
-                                        </form>
-                                    </td>
-                                </tr>
+                                <a href="{{ route('cameras.show', $camera->id) }}"
+                                    class="list-group-item list-group-item-action">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h5 class="mb-1">{{ $camera->camera_name }}
+                                        </h5>
+                                        <small class="text-muted">{{ $camera->main_basin }}</small>
+                                    </div>
+                                    <p class="mb-1">{{ $camera->district->name }}</p>
+                                    <small class="text-muted">{{ $camera->latitude }}, {{ $camera->longitude }}</small>
+                                </a>
                             @endforeach
-                        </table>
-                        {!! $cameras->links() !!}
+                        </div>
+                        {{-- <div style="padding-top:10px;">{!! $cameras->links() !!}</div> --}}
+                        <div style="padding-top:10px;">{{ $cameras->onEachSide(2)->links() }}</div>
+
+
 
                     </div>
                 </div>

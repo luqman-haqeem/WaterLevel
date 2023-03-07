@@ -38,6 +38,19 @@
             --bs-bg-opacity: 1;
             background-color: #fd7e14 !important;
         }
+
+        .reset-btn-style {
+            display: inline-block;
+            border: none;
+            margin: 0;
+            padding: 0;
+            font-family: sans-serif;
+            /* Use whatever font-family you want */
+            font-size: 1rem;
+            line-height: 1;
+            background: transparent;
+            -webkit-appearance: none;
+        }
     </style>
     @yield('style')
 
@@ -110,7 +123,7 @@
                             <i class="bi bi-droplet-half fs-1"></i>
                         </a>
                         <ul
-                            class="nav nav-pills nav-flush flex-sm-column flex-row flex-nowrap mb-auto mx-auto text-center justify-content-between w-100 px-3 align-items-center">
+                            class="nav nav-pills nav-flush flex-sm-column flex-row flex-nowrap mb-auto mx-auto text-center  w-100 px-3 align-items-center">
                             <li class="nav-item">
                                 <a href="{{ route('stations.index') }}" class="nav-link py-3 px-2" title=""
                                     data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Home">
@@ -127,7 +140,7 @@
                             </li>
 
                             @auth
-                                <li>
+                                <li class="ms-auto">
                                     <a href="{{ route('subscriptions.index') }}" class="nav-link py-3 px-2" title=""
                                         data-bs-toggle="tooltip" data-bs-placement="right"
                                         data-bs-original-title="Subscription">
@@ -139,22 +152,21 @@
 
 
 
-                        </ul>
 
-                        @guest
-                            @if (Route::has('login'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-                                </li>
-                            @endif
+                            @guest
+                                @if (Route::has('login'))
+                                    <li class="nav-item ms-auto">
+                                        <a class="nav-link " href="{{ route('login') }}">{{ __('Login') }}</a>
+                                    </li>
+                                @endif
 
-                            @if (Route::has('register'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                                </li>
-                            @endif
-                        @else
-                            {{-- <li class="nav-item dropdown">
+                                @if (Route::has('register'))
+                                    <li class="nav-item ">
+                                        <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                                    </li>
+                                @endif
+                            @else
+                                {{-- <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
                                     data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     <i class="bi-person-circle h2"></i>
@@ -173,29 +185,31 @@
                                     </form>
                                 </div>
                             </li> --}}
-                            <div class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
-                                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    <i class="bi-person-circle h2"></i>
-                                </a>
-                                <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser3">
-                                    <li>
-                                        <a class="dropdown-item" href="{{ route('logout') }}"
-                                            onclick="event.preventDefault();
+                                <div class="nav-item dropdown">
+                                    <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
+                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                        <i class="bi-person-circle h2"></i>
+                                    </a>
+                                    <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser3">
+                                        <li>
+                                            <a class="dropdown-item" href="{{ route('logout') }}"
+                                                onclick="event.preventDefault();
                                                          document.getElementById('logout-form').submit();">
-                                            {{ __('Logout') }}
-                                        </a>
+                                                {{ __('Logout') }}
+                                            </a>
 
-                                        <form id="logout-form" action="{{ route('logout') }}" method="POST"
-                                            class="d-none">
-                                            @csrf
-                                        </form>
-                                    </li>
-                                    <li><a class="dropdown-item" href="#">Settings</a></li>
-                                    <li><a class="dropdown-item" href="#">Profile</a></li>
-                                </ul>
-                            </div>
-                        @endguest
+                                            <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                                class="d-none">
+                                                @csrf
+                                            </form>
+                                        </li>
+                                        <li><a class="dropdown-item" href="#">Settings</a></li>
+                                        <li><a class="dropdown-item" href="#">Profile</a></li>
+                                    </ul>
+                                </div>
+                            @endguest
+                        </ul>
+
                     </div>
                 </div>
                 <main class="col-sm p-3 min-vh-100 py-5">
