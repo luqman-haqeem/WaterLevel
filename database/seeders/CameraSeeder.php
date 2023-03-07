@@ -30,7 +30,7 @@ class CameraSeeder extends Seeder
                 'longitude' => '101.441775',
                 'main_basin' => 'Sg. Selangor',
                 'sub_basin' => '',
-                'station_id' => 0,
+                'station_id' => 3,
                 'created_at' => now(),
                 'updated_at' => now()
             ], [
@@ -46,7 +46,7 @@ class CameraSeeder extends Seeder
                 'longitude' => '101.239066',
                 'main_basin' => 'Sungai Selangor',
                 'sub_basin' => '',
-                'station_id' => 0,
+                'station_id' => 7,
                 'created_at' => now(),
                 'updated_at' => now()
             ], [
@@ -78,7 +78,7 @@ class CameraSeeder extends Seeder
                 'longitude' => '101.834873',
                 'main_basin' => 'Sg. Langat',
                 'sub_basin' => '',
-                'station_id' => 0,
+                'station_id' => 21,
                 'created_at' => now(),
                 'updated_at' => now()
             ], [
@@ -158,7 +158,7 @@ class CameraSeeder extends Seeder
                 'longitude' => '101.748778',
                 'main_basin' => 'Sg. Balak',
                 'sub_basin' => '',
-                'station_id' => 0,
+                'station_id' => 25,
                 'created_at' => now(),
                 'updated_at' => now()
             ], [
@@ -174,7 +174,7 @@ class CameraSeeder extends Seeder
                 'longitude' => '101.821592',
                 'main_basin' => 'Sg. Semenyih',
                 'sub_basin' => '',
-                'station_id' => 0,
+                'station_id' => 15,
                 'created_at' => now(),
                 'updated_at' => now()
             ], [
@@ -206,7 +206,7 @@ class CameraSeeder extends Seeder
                 'longitude' => '101.785508',
                 'main_basin' => 'Sg. Langat',
                 'sub_basin' => '',
-                'station_id' => 0,
+                'station_id' => 14,
                 'created_at' => now(),
                 'updated_at' => now()
             ], [
@@ -222,7 +222,7 @@ class CameraSeeder extends Seeder
                 'longitude' => '101.772067',
                 'main_basin' => 'SG LANGAT',
                 'sub_basin' => '',
-                'station_id' => 0,
+                'station_id' => 20,
                 'created_at' => now(),
                 'updated_at' => now()
             ], [
@@ -254,7 +254,7 @@ class CameraSeeder extends Seeder
                 'longitude' => '101.741948',
                 'main_basin' => 'Sg. Labu',
                 'sub_basin' => '',
-                'station_id' => 0,
+                'station_id' => 30,
                 'created_at' => now(),
                 'updated_at' => now()
             ], [
@@ -270,7 +270,7 @@ class CameraSeeder extends Seeder
                 'longitude' => '101.639591',
                 'main_basin' => 'Sungai Rasau',
                 'sub_basin' => '',
-                'station_id' => 0,
+                'station_id' => 32,
                 'created_at' => now(),
                 'updated_at' => now()
             ], [
@@ -334,7 +334,7 @@ class CameraSeeder extends Seeder
                 'longitude' => '101.641883',
                 'main_basin' => 'Sg. Langat',
                 'sub_basin' => '',
-                'station_id' => 0,
+                'station_id' => 35,
                 'created_at' => now(),
                 'updated_at' => now()
             ], [
@@ -366,7 +366,7 @@ class CameraSeeder extends Seeder
                 'longitude' => '101.445012',
                 'main_basin' => 'Sg. Klang ',
                 'sub_basin' => '',
-                'station_id' => 0,
+                'station_id' => 41,
                 'created_at' => now(),
                 'updated_at' => now()
             ], [
@@ -1046,8 +1046,8 @@ class CameraSeeder extends Seeder
 
 
         $DBcameras = Camera::all();
-        $cameras = collect($cameras)->reject(function ($camera) use ($DBcameras){
-            return $DBcameras->contains('id',$camera['id']);
+        $cameras = collect($cameras)->reject(function ($camera) use ($DBcameras) {
+            return $DBcameras->contains('id', $camera['id']);
         })->toArray();
 
 
