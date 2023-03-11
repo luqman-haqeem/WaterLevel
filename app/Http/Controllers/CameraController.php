@@ -23,6 +23,7 @@ class CameraController extends Controller
 
         //
         $cameras = Camera::query();
+
         if (request('term')) {
             $cameras->where('camera_name', 'Like', '%' . request('term') . '%');
         }
@@ -85,13 +86,13 @@ class CameraController extends Controller
     {
         //
 
-        $stations = Station::all();
+        $stations = Station::orderBy('station_name', 'asc')->get();
 
         $data = [
             'camera' => $camera,
             'stations' => $stations,
         ];
-        // dd($data['MaxVote']);
+        // dd($data);
         return view('camera/edit', compact('data'));
     }
 
