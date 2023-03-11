@@ -109,31 +109,33 @@
                                     <p class="mb-1">{{ $subscription->station->district->name }}</p>
                                     <small class="text-muted"> Water Level:
                                         {{ $subscription->station->current_level->current_level }}m
-                        
-                                        @if ($subscription->station->current_level->alert_level == 1)
+
+                                        @if ($station->current_level->alert_level == 3)
                                             <span class="badge bg-danger" id="alert-badge">Danger</span>
-                                        @elseif($subscription->station->current_level->alert_level == 2)
+                                        @elseif($station->current_level->alert_level == 2)
                                             <span class="badge bg-orange" id="alert-badge">Warning</span>
-                                        @elseif($subscription->station->current_level->alert_level == 3)
+                                        @elseif($station->current_level->alert_level == 1)
                                             <span class="badge bg-warning" id="alert-badge">Alert</span>
                                         @else
                                             <span class="badge bg-info" id="alert-badge">Normal</span>
                                         @endif
-                        
+
                                     </small>
-                        
+
                                     <div class="float-end">
-                                        <form action="{{ route('subscriptions.destroy', $subscription->id) }}" method="POST">
+                                        <form action="{{ route('subscriptions.destroy', $subscription->id) }}"
+                                            method="POST">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="reset-btn-style text-danger" ><i class="bi bi-trash3"></i></button>
+                                            <button type="submit" class="reset-btn-style text-danger"><i
+                                                    class="bi bi-trash3"></i></button>
                                         </form>
-                                        
+
                                     </div>
                                 </a>
                             @endforeach
                         </div>
-                        
+
                         {{-- <div style="padding-top:10px;">{!! $stations->links() !!}</div> --}}
                         <div style="padding-top:10px;">{{ $subscriptions->onEachSide(2)->links() }}</div>
 

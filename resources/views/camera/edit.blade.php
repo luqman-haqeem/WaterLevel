@@ -42,12 +42,12 @@
                                         <select name="station_name" id="station_name"
                                             class="form-control select2 {{ $errors->has('station_name') ? 'is-invalid' : '' }}"
                                             data-placeholder="Choose one thing">
-                                            <option value="0" selected >No Camera</option>
-                                            
+                                            <option value="0" selected>No Camera</option>
+
                                             @foreach ($data['stations'] as $station)
                                                 <option value="{{ $station->id }}"
-                                                    {{ $data['camera']->station_id == $station->id ? 'selected' : '' }}
-                                                    >{{ $station->station_name }}</option>
+                                                    {{ $data['camera']->station_id == $station->id ? 'selected' : '' }}>
+                                                    {{ $station->station_name }}</option>
                                             @endforeach
 
                                         </select>
@@ -68,4 +68,8 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('scripts')
+
 @endsection
