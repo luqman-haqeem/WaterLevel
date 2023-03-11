@@ -44,7 +44,7 @@
                                             <li><a class="dropdown-item"
                                                     href="{{ route('cameras.index') . '?sort=station&order=desc' }}">Name
                                                     (desending)</a></li>
-                                         
+
                                         </ul>
                                     </div>
                                 </div>
@@ -65,16 +65,28 @@
                         </div>
 
                         <div class="list-group">
+
                             @foreach ($cameras as $camera)
                                 <a href="{{ route('cameras.show', $camera->id) }}"
                                     class="list-group-item list-group-item-action">
                                     <div class="d-flex w-100 justify-content-between">
-                                        <h5 class="mb-1">{{ $camera->camera_name }}
-                                        </h5>
+                                        <h5 class="mb-1">{{ $camera->camera_name }}</h5>
                                         <small class="text-muted">{{ $camera->main_basin }}</small>
                                     </div>
                                     <p class="mb-1">{{ $camera->district->name }}</p>
                                     <small class="text-muted">{{ $camera->latitude }}, {{ $camera->longitude }}</small>
+
+                                    @auth
+                                        @if (Auth::user()->is_admin)
+                                            <div class="float-end">
+                                                <form action="{{ route('cameras.edit', $camera->id) }}" method="GET">
+
+                                                    <button type="submit" class="reset-btn-style text-success"><i class="bi bi-pencil-square"></i></button>
+                                                </form>
+                                            </div>
+                                        @endif
+                                    @endauth
+
                                 </a>
                             @endforeach
                         </div>
