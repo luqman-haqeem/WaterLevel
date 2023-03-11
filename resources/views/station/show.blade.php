@@ -72,12 +72,11 @@
                             {{ $station->district->name }}</h6>
 
                         <p class="card-text"> Water Level: {{ $station->current_level->current_level }}
-
-                            @if ($station->current_level->alert_level == 1)
+                            @if ($station->current_level->alert_level == 3)
                                 <span class="badge bg-danger" id="alert-badge">Danger</span>
                             @elseif($station->current_level->alert_level == 2)
                                 <span class="badge bg-orange" id="alert-badge">Warning</span>
-                            @elseif($station->current_level->alert_level == 3)
+                            @elseif($station->current_level->alert_level == 1)
                                 <span class="badge bg-warning" id="alert-badge">Alert</span>
                             @else
                                 <span class="badge bg-info" id="alert-badge">Normal</span>

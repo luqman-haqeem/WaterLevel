@@ -92,11 +92,11 @@
                                     <p class="mb-1">{{ $station->district->name }}</p>
                                     <small class="text-muted"> Water Level: {{ $station->current_level->current_level }}m
 
-                                        @if ($station->current_level->alert_level == 1)
+                                        @if ($station->current_level->alert_level == 3)
                                             <span class="badge bg-danger" id="alert-badge">Danger</span>
                                         @elseif($station->current_level->alert_level == 2)
                                             <span class="badge bg-orange" id="alert-badge">Warning</span>
-                                        @elseif($station->current_level->alert_level == 3)
+                                        @elseif($station->current_level->alert_level == 1)
                                             <span class="badge bg-warning" id="alert-badge">Alert</span>
                                         @else
                                             <span class="badge bg-info" id="alert-badge">Normal</span>
