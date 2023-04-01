@@ -20,6 +20,8 @@ class CronController extends Controller
     public function update()
     {
         //
+        ignore_user_abort(true);
+
         $districts = Districts::all();
 
         foreach ($districts as $district) {
