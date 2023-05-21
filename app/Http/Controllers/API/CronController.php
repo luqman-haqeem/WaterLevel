@@ -56,6 +56,10 @@ class CronController extends Controller
 
                 if (curl_errno($curl)) {
                     echo "Error: " . curl_error($curl);
+                    return response()->json(
+                        ['error' => 'Curl Error', "msg" => curl_error($curl)],
+                        200
+                    );
                 }
 
                 $stationsJps = json_decode($response);
@@ -63,7 +67,7 @@ class CronController extends Controller
                 if (!isset($stationsJps->stations)) {
                     return response()->json(
                         ['error' => 'Cannot fetch data from JPS selangor', "url" => $url],
-                        500
+                        200
                     );
                 }
                 // print_r($stationsJps->stations);
