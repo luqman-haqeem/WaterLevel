@@ -13,7 +13,7 @@
         "APP_NAME": "RiverWaterLevel",
         "APP_ENV": "production",
         "APP_DEBUG": "false",
-        "APP_URL": "https://water-level-h7x7.vercel.app",
+        "APP_URL": "https://water-level-five.vercel.app/",
 
         
         "APP_CONFIG_CACHE": "/tmp/config.php",
