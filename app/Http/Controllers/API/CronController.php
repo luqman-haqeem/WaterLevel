@@ -48,15 +48,28 @@ class CronController extends Controller
             foreach ($stationsJps->stations as $stationJps) {
                 $station = Station::where('JPS_sel_id', $stationJps->id)->first();
                 if (empty($station)) {
-                } else {
-                    $currentLevel = CurrentLevel::where('station_id', $station->id)->first();
-                    $currentLevel->update(
-                        [
-                            'current_level' => $stationJps->waterLevel,
-                            'alert_level' => $stationJps->waterlevelStatus
-                        ]
-                    );
+                    continue;
                 }
+
+                $currentLevel = CurrentLevel::where('station_id', $station->id)->first();
+
+                if ($stationJps->waterLevel > $station->danger_water_level) {
+                    $alert_level = 3;
+                } else if ($stationJps->waterLevel > $station->warning_water_level) {
+                    $alert_level = 2;
+                } else if ($stationJps->waterLevel > $station->alert_water_level) {
+                    $alert_level = 1;
+                } else {
+                    $alert_level = 0;
+                }
+
+
+                $currentLevel->update(
+                    [
+                        'current_level' => $stationJps->waterLevel,
+                        'alert_level' => $alert_level
+                    ]
+                );
             }
         }
         return response()->noContent();
