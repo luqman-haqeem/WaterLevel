@@ -10,33 +10,39 @@ use Illuminate\Http\Request;
 
 class CronController extends Controller
 {
-    //
     /**
-     * Update The  current water level.
+     * Update the current water level.
      *
-     * @param  \App\Models\Camera  $camera
      * @return \Illuminate\Http\Response
      */
     public function update()
     {
-        //
         ignore_user_abort(true);
 
         $districts = Districts::all();
 
-        foreach ($districts as $district) {
-            $curl = curl_init();
+        // Prepare the bulk update data array
+        $bulkUpdateData = [];
 
+        foreach ($districts as $district) {
+            $curls = [];
+
+            $curlMultiHandler = curl_multi_init();
+
+            $url =  'http://infobanjirjps.selangor.gov.my/JPSAPI/api/StationRiverLevels/GetWLAllStationData/' . $district->id;
+            $curl = curl_init();
             curl_setopt_array($curl, array(
-                CURLOPT_URL => 'http://infobanjirjps.selangor.gov.my/JPSAPI/api/StationRiverLevels/GetWLAllStationData/' . $district->id,
+                CURLOPT_URL => $url,
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_ENCODING => '',
                 CURLOPT_MAXREDIRS => 10,
-                CURLOPT_TIMEOUT => 0,
+                CURLOPT_TIMEOUT => 5,
                 CURLOPT_FOLLOWLOCATION => true,
                 CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
                 CURLOPT_CUSTOMREQUEST => 'GET',
             ));
+            curl_multi_add_handle($curlMultiHandler, $curl);
+            $curls[] = $curl;
 
             $response = curl_exec($curl);
             if (curl_errno($curl)) {
@@ -70,8 +76,39 @@ class CronController extends Controller
                         'alert_level' => $alert_level
                     ]
                 );
+
             }
+
+            curl_multi_close($curlMultiHandler);
         }
-        return response()->noContent();
+        // dd($bulkUpdateData);
+        // Perform bulk update
+        if (!empty($bulkUpdateData)) {
+            $currentLevelModel = new CurrentLevel();
+
+            $table = $currentLevelModel->getTable();
+
+            $cases = [];
+            $ids = [];
+            $updatedDate = date('Y-m-d H:i:s');
+
+            foreach ($bulkUpdateData as $data) {
+                $stationId = $data['station_id'];
+                $currentLevel = $data['current_level'];
+                $alertLevel = $data['alert_level'];
+
+                $cases[] = "WHEN {$stationId} THEN {$currentLevel}";
+                $ids[] = $stationId;
+            }
+
+            $ids = implode(',', $ids);
+            $cases = implode(' ', $cases);
+
+            $query = "UPDATE {$table} SET current_level = (CASE id {$cases} END), alert_level = (CASE id {$cases} END), updated_at = '{$updatedDate}' WHERE id IN ({$ids})";
+
+            \DB::update(\DB::raw($query));
+
+            return response()->noContent();
+        }
     }
 }
