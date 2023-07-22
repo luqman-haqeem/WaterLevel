@@ -25,24 +25,18 @@ class CronController extends Controller
         $bulkUpdateData = [];
 
         foreach ($districts as $district) {
-            $curls = [];
-
-            $curlMultiHandler = curl_multi_init();
-
-            $url =  'http://infobanjirjps.selangor.gov.my/JPSAPI/api/StationRiverLevels/GetWLAllStationData/' . $district->id;
             $curl = curl_init();
+
             curl_setopt_array($curl, array(
-                CURLOPT_URL => $url,
+                CURLOPT_URL => 'http://infobanjirjps.selangor.gov.my/JPSAPI/api/StationRiverLevels/GetWLAllStationData/' . $district->id,
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_ENCODING => '',
                 CURLOPT_MAXREDIRS => 10,
-                CURLOPT_TIMEOUT => 5,
+                CURLOPT_TIMEOUT => 0,
                 CURLOPT_FOLLOWLOCATION => true,
                 CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
                 CURLOPT_CUSTOMREQUEST => 'GET',
             ));
-            curl_multi_add_handle($curlMultiHandler, $curl);
-            $curls[] = $curl;
 
             $response = curl_exec($curl);
             if (curl_errno($curl)) {
@@ -76,10 +70,7 @@ class CronController extends Controller
                         'alert_level' => $alert_level
                     ]
                 );
-
             }
-
-            curl_multi_close($curlMultiHandler);
         }
         // dd($bulkUpdateData);
         // Perform bulk update
