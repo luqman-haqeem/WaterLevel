@@ -237,7 +237,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
 
-
+        'Toastr'  => Brian2694\Toastr\Facades\Toastr::class,
     ],
 
 ];
