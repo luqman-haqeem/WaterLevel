@@ -110,11 +110,11 @@
                                     <small class="text-muted"> Water Level:
                                         {{ $subscription->station->current_level->current_level }}m
 
-                                        @if ($station->current_level->current_levels >= $station->danger_water_level)
+                                        @if ($subscription->station->current_level->current_levels >= $subscription->station->danger_water_level)
                                             <span class="badge bg-danger" id="alert-badge">Danger</span>
-                                        @elseif($station->current_level->current_levels >= $station->warning_water_level)
+                                        @elseif($subscription->station->current_level->current_levels >= $subscription->station->warning_water_level)
                                             <span class="badge bg-orange" id="alert-badge">Warning</span>
-                                        @elseif($station->current_level->current_levels >= $station->alert_water_level)
+                                        @elseif($subscription->station->current_level->current_levels >= $subscription->station->alert_water_level)
                                             <span class="badge bg-warning" id="alert-badge">Alert</span>
                                         @else
                                             <span class="badge bg-info" id="alert-badge">Normal</span>

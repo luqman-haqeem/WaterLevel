@@ -43,6 +43,7 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::group(['middleware' => 'auth'], function () {
     Route::resource('subscriptions', SubscriptionController::class);
+    Route::get('favorite/station', [App\Http\Controllers\SubscriptionController::class, 'favorite'])->name('favorite.add');
 
     Route::get('cameras/{camera}/edit', [App\Http\Controllers\CameraController::class, 'edit'])->name('cameras.edit');
     Route::match(['put', 'patch'], 'cameras/{camera}', 'App\Http\Controllers\CameraController@update')->name('cameras.update');
