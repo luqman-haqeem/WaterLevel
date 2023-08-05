@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 use Kyslik\ColumnSortable\Sortable;
 
 class Station extends Model
@@ -23,5 +24,13 @@ class Station extends Model
     public function camera()
     {
         return $this->hasOne(Camera::class);
+    }
+    public function favorite()
+    {
+        return $this->hasMany(Subscription::class)->where("user_id", Auth::id());
+    }
+    public function subscribedUsers()
+    {
+        return $this->hasMany(Subscription::class);
     }
 }

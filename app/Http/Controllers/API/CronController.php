@@ -53,11 +53,11 @@ class CronController extends Controller
 
                 $currentLevel = CurrentLevel::where('station_id', $station->id)->first();
 
-                if ($stationJps->waterLevel > $station->danger_water_level) {
+                if ($stationJps->waterLevel >= $station->danger_water_level) {
                     $alert_level = 3;
-                } else if ($stationJps->waterLevel > $station->warning_water_level) {
+                } else if ($stationJps->waterLevel >= $station->warning_water_level) {
                     $alert_level = 2;
-                } else if ($stationJps->waterLevel > $station->alert_water_level) {
+                } else if ($stationJps->waterLevel >= $station->alert_water_level) {
                     $alert_level = 1;
                 } else {
                     $alert_level = 0;
@@ -70,36 +70,50 @@ class CronController extends Controller
                         'alert_level' => $alert_level
                     ]
                 );
+                $this->blastNotification($station, $alert_level);
             }
         }
         // dd($bulkUpdateData);
         // Perform bulk update
-        if (!empty($bulkUpdateData)) {
-            $currentLevelModel = new CurrentLevel();
+        // if (!empty($bulkUpdateData)) {
+        //     $currentLevelModel = new CurrentLevel();
 
-            $table = $currentLevelModel->getTable();
+        //     $table = $currentLevelModel->getTable();
 
-            $cases = [];
-            $ids = [];
-            $updatedDate = date('Y-m-d H:i:s');
+        //     $cases = [];
+        //     $ids = [];
+        //     $updatedDate = date('Y-m-d H:i:s');
 
-            foreach ($bulkUpdateData as $data) {
-                $stationId = $data['station_id'];
-                $currentLevel = $data['current_level'];
-                $alertLevel = $data['alert_level'];
+        //     foreach ($bulkUpdateData as $data) {
+        //         $stationId = $data['station_id'];
+        //         $currentLevel = $data['current_level'];
+        //         $alertLevel = $data['alert_level'];
 
-                $cases[] = "WHEN {$stationId} THEN {$currentLevel}";
-                $ids[] = $stationId;
+        //         $cases[] = "WHEN {$stationId} THEN {$currentLevel}";
+        //         $ids[] = $stationId;
+
+        //     }
+
+        //     $ids = implode(',', $ids);
+        //     $cases = implode(' ', $cases);
+
+        //     $query = "UPDATE {$table} SET current_level = (CASE id {$cases} END), alert_level = (CASE id {$cases} END), updated_at = '{$updatedDate}' WHERE id IN ({$ids})";
+
+        //     \DB::update(\DB::raw($query));
+
+
+
+        //     return response()->noContent();
+        // }
+
+
+    }
+    function blastNotification(Station $station, $alert_level)
+    {
+        if ($alert_level == 3) {
+            foreach ($station->subscribedUsers as $user) {
+                $user->notify(new SendDangerNotification($station));
             }
-
-            $ids = implode(',', $ids);
-            $cases = implode(' ', $cases);
-
-            $query = "UPDATE {$table} SET current_level = (CASE id {$cases} END), alert_level = (CASE id {$cases} END), updated_at = '{$updatedDate}' WHERE id IN ({$ids})";
-
-            \DB::update(\DB::raw($query));
-
-            return response()->noContent();
         }
     }
 }

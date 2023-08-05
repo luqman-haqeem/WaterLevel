@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Station;
 use App\Models\Subscription;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 
 class SubscriptionController extends Controller
@@ -129,5 +130,42 @@ class SubscriptionController extends Controller
 
         return redirect()->route('subscriptions.index')
             ->with('success', 'Successfully Removed Subscription');
+    }
+
+    /**
+     * Add station as favorite
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function favorite(Request $request)
+    {
+        $request->validate([
+            'id' => 'required',
+        ]);
+        $station_id = $request->input('id');
+        $user_id = Auth::id();
+
+
+        $isAlrExist = Subscription::where('user_id', $user_id)->where('station_id', $station_id)->first();
+        if (empty($isAlrExist)) {
+            $subscription =  new Subscription();
+            $subscription->station_id = $station_id;
+            $subscription->user_id = $user_id;
+            $subscription->save();
+
+            $status = 1;
+            $message = 'Added station as favorite';
+        } else {
+            $isAlrExist->delete();
+            $status = 0;
+            $message = 'Remove station  as favorite';
+        }
+
+        $response = [
+            "status" => $status,
+            "msg" => $message,
+        ];
+
+        return response()->json($response, Response::HTTP_OK);
     }
 }

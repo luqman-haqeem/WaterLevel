@@ -36,7 +36,7 @@ class GoogleController extends Controller
 
                 Auth::login($finduser);
                 // dd(Auth::id());
-                echo Auth::id();
+                // echo Auth::id();
                 // die;
                 return redirect('/subscriptions');
 

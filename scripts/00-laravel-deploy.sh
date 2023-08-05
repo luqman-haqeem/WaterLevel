@@ -11,3 +11,9 @@ php artisan route:cache
 
 echo "Running migrations..."
 php artisan migrate --force --seed
+
+echo "Restart queue"
+php artisan queue:restart
+
+echo "Run queue"
+php artisan queue:restart

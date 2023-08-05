@@ -81,28 +81,49 @@
                                 <small class="text-muted">And some muted small print.</small>
                             </a> --}}
                             @foreach ($stations as $station)
-                                <a href="{{ route('stations.show', $station->id) }}"
-                                    class="list-group-item list-group-item-action">
-                                    <div class="d-flex w-100 justify-content-between">
-                                        <h5 class="mb-1">{{ $station->station_name }}
-                                        </h5>
-                                        <small
-                                            class="text-muted">{{ $station->current_level->updated_at->diffForHumans() }}</small>
-                                    </div>
-                                    <p class="mb-1">{{ $station->district->name }}</p>
-                                    <small class="text-muted"> Water Level: {{ $station->current_level->current_level }}m
+                                <div class="list-group-item list-group-item-action flex-row">
+                                    <a class="custom-link" href="{{ route('stations.show', $station->id) }}">
+                                        <div class="d-flex w-100 justify-content-between">
+                                            <h5 class="mb-1">{{ $station->station_name }}
+                                            </h5>
+                                            <small
+                                                class="text-muted">{{ $station->current_level->updated_at->diffForHumans() }}</small>
+                                        </div>
+                                        <p class="mb-1">{{ $station->district->name }}</p>
 
-                                        @if ($station->current_level->current_levels >= $station->danger_water_level)
-                                            <span class="badge bg-danger" id="alert-badge">Danger</span>
-                                        @elseif($station->current_level->current_levels >= $station->warning_water_level)
-                                            <span class="badge bg-orange" id="alert-badge">Warning</span>
-                                        @elseif($station->current_level->current_levels >= $station->alert_water_level)
-                                            <span class="badge bg-warning" id="alert-badge">Alert</span>
-                                        @else
-                                            <span class="badge bg-info" id="alert-badge">Normal</span>
+                                    </a>
+                                    <div class="d-flex justify-content-between">
+                                        <a class="custom-link flex-grow-1 text-muted"
+                                            href="{{ route('stations.show', $station->id) }}">
+                                            <small> Water Level: {{ $station->current_level->current_level }}m
+
+                                                @if ($station->current_level->current_levels >= $station->danger_water_level)
+                                                    <span class="badge bg-danger" id="alert-badge">Danger</span>
+                                                @elseif($station->current_level->current_levels >= $station->warning_water_level)
+                                                    <span class="badge bg-orange" id="alert-badge">Warning</span>
+                                                @elseif($station->current_level->current_levels >= $station->alert_water_level)
+                                                    <span class="badge bg-warning" id="alert-badge">Alert</span>
+                                                @else
+                                                    <span class="badge bg-info" id="alert-badge">Normal</span>
+                                                @endif
+                                            </small>
+                                        </a>
+                                        @if (Auth::check())
+
+                                            @if (empty($station->favorite[0]->station_id))
+                                            <span><i data-id="{{ $station->id }}" class=" heart-icon bi-heart fs-4 "></i></span>
+                                                
+                                            @else
+                                            <span class="text-danger"><i data-id="{{ $station->id }}" class="heart-icon fs-4 bi-heart-fill"></i></span>
+                                            @endif
                                         @endif
-                                    </small>
-                                </a>
+
+
+                                        {{-- <span class=" text-danger"><i id="heart-icon" class="bi-heart-fill fs-4 "></i>
+                                        </span> --}}
+
+                                    </div>
+                                </div>
                             @endforeach
                         </div>
                         {{-- <div style="padding-top:10px;">{!! $stations->links() !!}</div> --}}
@@ -113,4 +134,52 @@
             </div>
         </div>
     </div>
+@endsection
+@section('scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            const heartIcons = document.querySelectorAll(".heart-icon");
+
+            heartIcons.forEach((heartIcon) => {
+                heartIcon.addEventListener("click", function() {
+                    const dataId = heartIcon.getAttribute("data-id");
+                    updateFavoriteStation(dataId)
+                    // console.log(heartIcon)
+                    heartIcon.classList.toggle("bi-heart");
+                    heartIcon.classList.toggle("bi-heart-fill");
+                    heartIcon.parentElement.classList.toggle("text-danger");
+                });
+            });
+
+            function updateFavoriteStation(id) {
+
+                const data = {
+                    id: id
+                };
+                const url = `{{ route('favorite.add') }}?id=${id}`;
+
+                // console.log(url)
+
+                fetch(url, {
+                        method: "GET",
+                    })
+                    .then(response => response.json())
+                    .then(result => {
+                        if (result.status) {
+                            toastr.success(result?.msg ?? "Liked")
+                        } else if (result.status == 0) {
+                            toastr.warning(result?.msg ?? "Removed")
+                        } else {
+                            toastr.error(result?.msg ?? "Server unable to process")
+                        }
+
+                    })
+                    .catch(error => {
+                        console.error("Error:", error);
+                    });
+            }
+
+        });
+    </script>
 @endsection
