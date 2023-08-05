@@ -6,7 +6,7 @@
         <div class="row justify-content-center">
             <div class="col-md-10">
                 <div class="card">
-                    <div class="card-header">{{ __('Subscription List') }}
+                    <div class="card-header">{{ __('Favorite Station') }}
                         <div class="float-end">
                             <a class="btn btn-outline-success" href="{{ route('subscriptions.create') }}">
                                 {{ __('Add Station') }}

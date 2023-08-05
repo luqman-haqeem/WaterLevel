@@ -109,8 +109,13 @@
                                             </small>
                                         </a>
                                         @if (Auth::check())
-                                            <span><i data-id="{{ $station->id }}"
-                                                    class=" heart-icon bi-heart fs-4 "></i></span>
+
+                                            @if (empty($station->favorite[0]->station_id))
+                                            <span><i data-id="{{ $station->id }}" class=" heart-icon bi-heart fs-4 "></i></span>
+                                                
+                                            @else
+                                            <span class="text-danger"><i data-id="{{ $station->id }}" class="heart-icon fs-4 bi-heart-fill"></i></span>
+                                            @endif
                                         @endif
 
 
