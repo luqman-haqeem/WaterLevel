@@ -5,6 +5,7 @@
         "This file is @generated automatically"
     ],
     "content-hash": "66dffbb18c34b695fc8f3a7b634ce361",
+
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -131,6 +132,7 @@
             "time": "2023-02-21T08:06:05+00:00"
         },
         {
+
             "name": "brian2694/laravel-toastr",
             "version": "5.57",
             "source": {
