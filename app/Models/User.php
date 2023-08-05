@@ -46,4 +46,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Subscription::class);
     }
+
+    public function routeNotificationForOneSignal()
+    {
+        return ['include_external_user_ids' => ["$this->id"]];
+    }
 }

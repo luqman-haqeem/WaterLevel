@@ -24,4 +24,12 @@ class Station extends Model
     {
         return $this->hasOne(Camera::class);
     }
+    public function favorite()
+    {
+        return $this->hasMany(Subscription::class)->where("user_id", Auth::id());
+    }
+    public function subscribedUsers()
+    {
+        return $this->hasMany(Subscription::class);
+    }
 }

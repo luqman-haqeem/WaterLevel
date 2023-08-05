@@ -145,23 +145,24 @@ class SubscriptionController extends Controller
         $station_id = $request->input('id');
         $user_id = Auth::id();
 
-        
-        $isAlrExist = Subscription::where('user_id', $user_id)->where('station_id', $station_id)->first();
-        Toastr::success('Messages in here', 'Title', ["positionClass" => "toast-top-center"]);
 
+        $isAlrExist = Subscription::where('user_id', $user_id)->where('station_id', $station_id)->first();
         if (empty($isAlrExist)) {
             $subscription =  new Subscription();
             $subscription->station_id = $station_id;
             $subscription->user_id = $user_id;
             $subscription->save();
 
-            $message = 'Sucessfully Added Station As Favorite';
+            $status = 1;
+            $message = 'Added station as favorite';
         } else {
             $isAlrExist->delete();
-            $message = 'Sucessfully Remove Station As Favorite';
+            $status = 0;
+            $message = 'Remove station  as favorite';
         }
 
         $response = [
+            "status" => $status,
             "msg" => $message,
         ];
 
