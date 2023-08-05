@@ -109,7 +109,8 @@
                                             </small>
                                         </a>
                                         @if (Auth::check())
-                                            <span><i data-id="{{ $station->id }}" class=" heart-icon bi-heart fs-4 "></i></span>
+                                            <span><i data-id="{{ $station->id }}"
+                                                    class=" heart-icon bi-heart fs-4 "></i></span>
                                         @endif
 
 
@@ -160,8 +161,13 @@
                     })
                     .then(response => response.json())
                     .then(result => {
-                        console.log("Response:", result);
-                        // Handle the response if needed
+                        if (result.status) {
+                            toastr.success(result?.msg ?? "Liked")
+                        } else if (result.status == 0) {
+                            toastr.warning(result?.msg ?? "Removed")
+                        } else {
+                            toastr.error(result?.msg ?? "Server unable to process")
+                        }
 
                     })
                     .catch(error => {
