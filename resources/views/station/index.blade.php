@@ -145,7 +145,7 @@
                 heartIcon.addEventListener("click", function() {
                     const dataId = heartIcon.getAttribute("data-id");
                     updateFavoriteStation(dataId)
-                    console.log(heartIcon)
+                    // console.log(heartIcon)
                     heartIcon.classList.toggle("bi-heart");
                     heartIcon.classList.toggle("bi-heart-fill");
                     heartIcon.parentElement.classList.toggle("text-danger");
@@ -159,7 +159,7 @@
                 };
                 const url = `{{ route('favorite.add') }}?id=${id}`;
 
-                console.log(url)
+                // console.log(url)
 
                 fetch(url, {
                         method: "GET",
