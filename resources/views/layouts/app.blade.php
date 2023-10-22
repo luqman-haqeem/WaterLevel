@@ -47,21 +47,21 @@
         window.OneSignal = window.OneSignal || [];
         OneSignal.push(function() {
             OneSignal.init({
-                appId: "eb35e1e6-74fc-4d44-9021-1d04fb4e3a6f",
+                appId: "cf436669-beb6-4662-a0f3-2d58e23fb5b2",
             });
         });
 
-        OneSignal.push(function() {
-            OneSignal.getUserId(function(userId) {
-                const externalUserId = "{{ Auth::id() }}"
+        // OneSignal.push(function() {
+        //     OneSignal.getUserId(function(userId) {
+        //         const externalUserId = "{{ Auth::id() }}"
 
-                if (userId && externalUserId) {
-                    OneSignal.push(function() {
-                        OneSignal.setExternalUserId(externalUserId);
-                    });
-                }
-            });
-        });
+        //         if (userId && externalUserId) {
+        //             OneSignal.push(function() {
+        //                 OneSignal.setExternalUserId(externalUserId);
+        //             });
+        //         }
+        //     });
+        // });
     </script>
 
 </head>

@@ -20,7 +20,7 @@ class StationController extends Controller
 
         //
         $stations = Station::query();
-        // $stations->select('station.*');
+
         
         if (request('term')) {
             $term = strtoupper(request('term'));
@@ -30,8 +30,14 @@ class StationController extends Controller
         if (request('sort')) {
 
             $order = request('order') ?? 'asc';
+            $stations->join('current_levels', 'current_levels.station_id', '=', 'stations.id');
+
             if (request('sort') == 'station') {
                 $stations->orderBy('station_name',$order);
+            }else if (request('sort') == 'district') {
+                $stations->orderBy('district_id',$order);
+            }else if (request('sort') == 'water-level') {
+                $stations->orderBy('current_level',$order);
             }
            
         }
