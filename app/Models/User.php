@@ -21,7 +21,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'google_id'
+        'google_id',
+        'onesignal_player_id'
     ];
 
     /**
@@ -47,8 +48,4 @@ class User extends Authenticatable
         return $this->hasMany(Subscription::class);
     }
 
-    public function routeNotificationForOneSignal()
-    {
-        return ['include_external_user_ids' => ["$this->id"]];
-    }
 }
