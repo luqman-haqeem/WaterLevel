@@ -46,15 +46,16 @@ class SendDangerNotification extends Notification implements ShouldQueue
      */
     public function toOneSignal($notifiable)
     {
+
         return OneSignalMessage::create()
-            ->setSubject("Danger alert for one of your favorite stations")
-            ->setBody("{$this->station->station_name} station has reach danger level!")
-            ->setUrl('http://onesignal.com')
+            ->setSubject("Danger Alert")
+            ->setBody("{$this->station->station_name} reached a danger level!")
+            ->setUrl(env('APP_URL', 'https://water-level.onrender.com/stations')."/{$this->station->id}")
             ->webButton(
                 OneSignalWebButton::create('link-1')
-                    ->text('Click here')
-                    ->icon('https://upload.wikimedia.org/wikipedia/commons/4/4f/Laravel_logo.png')
-                    ->url('http://laravel.com')
+                    ->text('See Other Stations')
+                    ->icon('https://cdn-icons-png.flaticon.com/512/223/223476.png')
+                    ->url(env('APP_URL', 'https://water-level.onrender.com/stations').'/stations')
             );
     }
     /**

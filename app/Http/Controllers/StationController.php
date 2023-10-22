@@ -20,17 +20,33 @@ class StationController extends Controller
 
         //
         $stations = Station::query();
-        // $stations->select('station.*');
-        
+        $stations->join('current_levels', 'current_levels.station_id', '=', 'stations.id');
+
+
         if (request('term')) {
-            $stations->where('station_name', 'Like', '%' . request('term') . '%');
+            $term = strtoupper(request('term'));
+            $stations->where('station_name', 'Like', "%$term%");
         }
         // sort
         if (request('sort')) {
 
             $order = request('order') ?? 'asc';
+
             if (request('sort') == 'station') {
-                $stations->orderBy('station_name',$order);
+                $stations->orderBy('station_name', $order);
+            } else if (request('sort') == 'district') {
+                $stations->orderBy('district_id', $order);
+            } else if (request('sort') == 'water-level') {
+                $stations->orderBy('current_level', $order);
+            }
+        }
+        if (request('filter')) {
+            if (request('sort') == 'danger') {
+                $stations->where('current_levels.alert_level', 3);
+            } else if (request('sort') == 'alert') {
+                $stations->where('current_levels.alert_level', 2);
+            } else if (request('sort') == 'warning') {
+                $stations->where('current_levels.alert_level', 1);
             }
            
         }
