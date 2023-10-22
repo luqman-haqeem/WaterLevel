@@ -48,3 +48,4 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('cameras/{camera}/edit', [App\Http\Controllers\CameraController::class, 'edit'])->name('cameras.edit');
     Route::match(['put', 'patch'], 'cameras/{camera}', 'App\Http\Controllers\CameraController@update')->name('cameras.update');
 });
+Route::post('/users/player-id', [App\Http\Controllers\SubscriptionController::class, 'savePlayerId']);
