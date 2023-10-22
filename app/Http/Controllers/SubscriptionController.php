@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Station;
+use App\Models\User;
 use App\Models\Subscription;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -167,5 +168,18 @@ class SubscriptionController extends Controller
         ];
 
         return response()->json($response, Response::HTTP_OK);
+    }
+
+    public function savePlayerId(Request $request)
+    {
+        $playerId = $request->input('playerId');
+        $userId = Auth::id(); // Get the currently authenticated user's ID
+        // Update the user record with the player ID
+        $user = User::find($userId);
+        $user->onesignal_player_id = $playerId;
+        $user->save();
+
+        return response()->json(['message' => 'Player ID saved for the user'], 200);
+
     }
 }

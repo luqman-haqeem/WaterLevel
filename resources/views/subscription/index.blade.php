@@ -152,6 +152,35 @@
 @section('scripts')
     <script type="text/javascript">
         $(document).ready(function() {
+            OneSignal.getUserId().then(function(playerId) {
+                if (playerId) {
+                    $.ajax({
+                        type: 'POST',
+                        url: '/users/player-id', // Replace with your server endpoint
+                        data: JSON.stringify({
+                            playerId: playerId
+                        }),
+                        contentType: 'application/json',
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                        },
+                        success: function(data, textStatus, xhr) {
+                            if (xhr.status === 200) {
+                                console.log('Player ID sent to the server successfully.');
+                            } else {
+                                console.error('Failed to send Player ID to the server.');
+                            }
+                        },
+                        error: function(xhr, textStatus, errorThrown) {
+                            console.error('Failed to send Player ID to the server.');
+                        }
+                    });
+                } else {
+                    console.error('Player ID is not available.');
+                }
+
+
+            });
 
         });
     </script>
