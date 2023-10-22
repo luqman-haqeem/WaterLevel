@@ -23,7 +23,8 @@ class StationController extends Controller
         // $stations->select('station.*');
         
         if (request('term')) {
-            $stations->where('station_name', 'Like', '%' . request('term') . '%');
+            $term = strtoupper(request('term'));
+            $stations->where('station_name', 'Like', "%$term%");
         }
         // sort
         if (request('sort')) {
