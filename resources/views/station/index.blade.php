@@ -30,23 +30,43 @@
                                         </button>
                                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                                             <li><a class="dropdown-item"
-                                                    href="{{ route('stations.index') . '?sort=station&order=asc' }}">Name
+                                                    href="{{ request()->fullUrlWithQuery(['sort' => 'station','order' => 'asc']) }}">Name
                                                     (ascending)</a></li>
                                             <li><a class="dropdown-item"
-                                                    href="{{ route('stations.index') . '?sort=station&order=desc' }}">Name
+                                                    href="{{ request()->fullUrlWithQuery(['sort' => 'station','order' => 'desc']) }}">Name
                                                     (desending)</a></li>
                                             <li><a class="dropdown-item"
-                                                    href="{{ route('stations.index') . '?sort=district&order=asc' }}">District
+                                                    href="{{ request()->fullUrlWithQuery(['sort' => 'district','order' => 'asc']) }}">District
                                                     (ascending)</a></li>
                                             <li><a class="dropdown-item"
-                                                    href="{{ route('stations.index') . '?sort=district&order=desc' }}">District
+                                                    href="{{ request()->fullUrlWithQuery(['sort' => 'district','order' => 'desc']) }}">District
                                                     (desending)</a></li>
                                             <li><a class="dropdown-item"
-                                                    href="{{ route('stations.index') . '?sort=water-level&order=asc' }}">Water Level (ascending)</a>
+                                                    href="{{ request()->fullUrlWithQuery(['sort' => 'water-level','order' => 'asc']) }}">Water Level (ascending)</a>
                                             </li>
                                             <li><a class="dropdown-item"
-                                                    href="{{ route('stations.index') . '?sort=water-level&order=desc' }}">Water Level (desending)</a>
+                                                    href="{{ request()->fullUrlWithQuery(['sort' => 'water-level','order' => 'desc']) }}">Water Level (desending)</a>
                                             </li>
+                                        </ul>
+
+                                        <button class="btn btn-outline-info dropdown-toggle" type="button"
+                                            id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                            Filter By
+                                        </button>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                            {{-- <li><a class="dropdown-item"
+                                                    href="{{ route('stations.index') . '?filter=favorite' }}">Favorite Only
+                                                    </a></li> --}}
+                                            <li><a class="dropdown-item"
+                                                    href="{{ request()->fullUrlWithQuery(['filter' => 'danger']) }}">Danger Only (Water Level)
+                                                    </a></li>
+                                            <li><a class="dropdown-item"
+                                                    href="{{ request()->fullUrlWithQuery(['filter' => 'alert']) }}">Alert Only (Water Level)
+                                                    </a></li>
+                                            <li><a class="dropdown-item"
+                                                    href="{{ request()->fullUrlWithQuery(['filter' => 'warning']) }}">Warning Only (Water Level)
+                                                    </a></li>
+                                            
                                         </ul>
                                     </div>
                                 </div>

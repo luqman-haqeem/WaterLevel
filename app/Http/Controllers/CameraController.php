@@ -25,7 +25,9 @@ class CameraController extends Controller
         $cameras = Camera::query();
 
         if (request('term')) {
-            $cameras->where('camera_name', 'Like', '%' . request('term') . '%');
+            $term = strtoupper(request('term'));
+
+            $cameras->where('camera_name', 'Like', "%{$term}%");
         }
         // sort
         if (request('sort')) {
