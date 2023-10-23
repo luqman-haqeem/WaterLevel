@@ -37,7 +37,7 @@ class CameraController extends Controller
                 $cameras->orderBy('camera_name', $order);
             }
         }
-        $cameras = $cameras->sortable()->paginate(10);
+        $cameras = $cameras->sortable()->paginate(10)->withQueryString();
 
         return view('camera.index', compact('cameras'))
             ->with('i', (request()->input('page', 1) - 1) * 5);
