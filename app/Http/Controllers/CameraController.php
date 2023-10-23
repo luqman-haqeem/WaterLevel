@@ -25,7 +25,9 @@ class CameraController extends Controller
         $cameras = Camera::query();
 
         if (request('term')) {
-            $cameras->where('camera_name', 'Like', '%' . request('term') . '%');
+            $term = strtoupper(request('term'));
+
+            $cameras->where('camera_name', 'Like', "%$term%");
         }
         // sort
         if (request('sort')) {
@@ -35,7 +37,7 @@ class CameraController extends Controller
                 $cameras->orderBy('camera_name', $order);
             }
         }
-        $cameras = $cameras->sortable()->paginate(10);
+        $cameras = $cameras->sortable()->paginate(10)->withQueryString();
 
         return view('camera.index', compact('cameras'))
             ->with('i', (request()->input('page', 1) - 1) * 5);

@@ -28,6 +28,16 @@ class StationController extends Controller
             $stations->where('station_name', 'Like', "%$term%");
         }
         // sort
+
+        if (request('filter')) {
+            if (request('filter') == 'danger') {
+                $stations->where('alert_level', 3);
+            } else if (request('filter') == 'alert') {
+                $stations->where('alert_level', 2);
+            } else if (request('filter') == 'warning') {
+                $stations->where('alert_level', 1);
+            }
+        }
         if (request('sort')) {
 
             $order = request('order') ?? 'asc';
@@ -39,16 +49,6 @@ class StationController extends Controller
             } else if (request('sort') == 'water-level') {
                 $stations->orderBy('current_level', $order);
             }
-        }
-        if (request('filter')) {
-            if (request('sort') == 'danger') {
-                $stations->where('current_levels.alert_level', 3);
-            } else if (request('sort') == 'alert') {
-                $stations->where('current_levels.alert_level', 2);
-            } else if (request('sort') == 'warning') {
-                $stations->where('current_levels.alert_level', 1);
-            }
-           
         }
         $stations = $stations->sortable()->paginate(10)->withQueryString();
 
@@ -99,7 +99,6 @@ class StationController extends Controller
      */
     public function edit(Station $station)
     {
-
     }
 
     /** 
