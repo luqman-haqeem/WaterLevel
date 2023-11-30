@@ -23,29 +23,41 @@
                         <div class="row pb-3">
                             <div class="d-flex ">
                                 <div class="me-auto pe-1">
-                                    <div class="dropdown">
+                                    <button type="button" id="location-btn" onclick="detectLocation()"
+                                        class="btn btn-outline-success d-inline">
+                                        <i class="bi bi-geo-alt"></i>
+                                    </button>
+                                    <div class="dropdown d-inline">
                                         <button class="btn btn-outline-primary dropdown-toggle" type="button"
                                             id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                                             Sort By
                                         </button>
                                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                            <li><a class="dropdown-item"
-                                                    href="{{ request()->fullUrlWithQuery(['sort' => 'station','order' => 'asc']) }}">Name
+                                            <li><a class="dropdown-item 
+                                                @if (request()->query('sort') == 'station' && request()->query('order') == 'asc') active @endif "
+                                                    href="{{ request()->fullUrlWithQuery(['sort' => 'station', 'order' => 'asc']) }}">Name
                                                     (ascending)</a></li>
-                                            <li><a class="dropdown-item"
-                                                    href="{{ request()->fullUrlWithQuery(['sort' => 'station','order' => 'desc']) }}">Name
+                                            <li><a class="dropdown-item
+                                                @if (request()->query('sort') == 'station' && request()->query('order') == 'desc') active @endif "
+                                                    href="{{ request()->fullUrlWithQuery(['sort' => 'station', 'order' => 'desc']) }}">Name
                                                     (desending)</a></li>
-                                            <li><a class="dropdown-item"
-                                                    href="{{ request()->fullUrlWithQuery(['sort' => 'district','order' => 'asc']) }}">District
+                                            <li><a class="dropdown-item
+                                                @if (request()->query('sort') == 'district' && request()->query('order') == 'asc') active @endif "
+                                                    href="{{ request()->fullUrlWithQuery(['sort' => 'district', 'order' => 'asc']) }}">District
                                                     (ascending)</a></li>
-                                            <li><a class="dropdown-item"
-                                                    href="{{ request()->fullUrlWithQuery(['sort' => 'district','order' => 'desc']) }}">District
+                                            <li><a class="dropdown-item
+                                                @if (request()->query('sort') == 'district' && request()->query('order') == 'desc') active @endif "
+                                                    href="{{ request()->fullUrlWithQuery(['sort' => 'district', 'order' => 'desc']) }}">District
                                                     (desending)</a></li>
-                                            <li><a class="dropdown-item"
-                                                    href="{{ request()->fullUrlWithQuery(['sort' => 'water-level','order' => 'asc']) }}">Water Level (ascending)</a>
+                                            <li><a class="dropdown-item
+                                                @if (request()->query('sort') == 'water-level' && request()->query('order') == 'asc') active @endif "
+                                                    href="{{ request()->fullUrlWithQuery(['sort' => 'water-level', 'order' => 'asc']) }}">Water
+                                                    Level (ascending)</a>
                                             </li>
-                                            <li><a class="dropdown-item"
-                                                    href="{{ request()->fullUrlWithQuery(['sort' => 'water-level','order' => 'desc']) }}">Water Level (desending)</a>
+                                            <li><a class="dropdown-item
+                                                @if (request()->query('sort') == 'water-level' && request()->query('order') == 'desc') active @endif "
+                                                    href="{{ request()->fullUrlWithQuery(['sort' => 'water-level', 'order' => 'desc']) }}">Water
+                                                    Level (desending)</a>
                                             </li>
                                         </ul>
 
@@ -57,16 +69,22 @@
                                             {{-- <li><a class="dropdown-item"
                                                     href="{{ route('stations.index') . '?filter=favorite' }}">Favorite Only
                                                     </a></li> --}}
-                                            <li><a class="dropdown-item"
-                                                    href="{{ request()->fullUrlWithQuery(['filter' => 'danger']) }}">Danger Only (Water Level)
-                                                    </a></li>
-                                            <li><a class="dropdown-item"
-                                                    href="{{ request()->fullUrlWithQuery(['filter' => 'alert']) }}">Alert Only (Water Level)
-                                                    </a></li>
-                                            <li><a class="dropdown-item"
-                                                    href="{{ request()->fullUrlWithQuery(['filter' => 'warning']) }}">Warning Only (Water Level)
-                                                    </a></li>
-                                            
+                                            <li><a class="dropdown-item @if (request()->query('filter') == '') active @endif "
+                                                    href="{{ request()->fullUrlWithQuery(['filter' => '']) }}">All
+                                                </a></li>
+                                            <li><a class="dropdown-item @if (request()->query('filter') == 'danger') active @endif "
+                                                    href="{{ request()->fullUrlWithQuery(['filter' => 'danger']) }}">Danger
+                                                    Only (Water Level)
+                                                </a></li>
+                                            <li><a class="dropdown-item @if (request()->query('filter') == 'alert') active @endif "
+                                                    href="{{ request()->fullUrlWithQuery(['filter' => 'alert']) }}">Alert
+                                                    Only (Water Level)
+                                                </a></li>
+                                            <li><a class="dropdown-item @if (request()->query('filter') == 'warning') active @endif "
+                                                    href="{{ request()->fullUrlWithQuery(['filter' => 'warning']) }}">Warning
+                                                    Only (Water Level)
+                                                </a></li>
+
                                         </ul>
                                     </div>
                                 </div>
@@ -79,6 +97,7 @@
                                         <a href="{{ route('stations.index') }}" class="btn btn-outline-danger "><i
                                                 class="bi bi-x"></i>
                                         </a>
+
 
                                     </form>
                                 </div>
@@ -112,10 +131,15 @@
                                         <div class="d-flex w-100 justify-content-between">
                                             <h5 class="mb-1">{{ $station->station_name }}
                                             </h5>
-                                            <small
-                                                class="text-muted">{{ $station->updated_at->diffForHumans() }}</small>
+                                            <small class="text-muted">{{ $station->updated_at->diffForHumans() }}</small>
                                         </div>
-                                        <p class="mb-1">{{ $station->district->name }}</p>
+                                        <div class="d-flex w-100 justify-content-between">
+                                            <p class="mb-1">{{ $station->district->name }}</p>
+                                            @if(!empty($station->distance))
+                                            <small class="">{{ number_format($station->distance, 2, '.', ',') }} km</small>
+                                            @endif
+                                            
+                                        </div>
 
                                     </a>
                                     <div class="d-flex justify-content-between">
@@ -207,5 +231,31 @@
             }
 
         });
+
+        const successCallback = (position) => {
+            let url = new URL(window.location.href);
+            url.searchParams.set('latitude', position?.coords?.latitude);
+            url.searchParams.set('longitude', position?.coords?.longitude);
+
+            window.location.href = url.href;
+            toastr.clear();
+
+        };
+
+        const errorCallback = (error) => {
+            toastr.clear();
+            toastr.error(error?.message)
+
+        };
+
+        function detectLocation() {
+            toastr.info('Detecting your Location...', null, {
+                closeButton: false,
+                timeOut: 0,
+                extendedTimeOut: 0
+            });
+            navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
+
+        }
     </script>
 @endsection

@@ -7,6 +7,7 @@ use App\Models\Station;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\DB;
 
 class StationController extends Controller
 {
@@ -40,7 +41,7 @@ class StationController extends Controller
         }
         if (request('sort')) {
 
-            $order = request('order') ?? 'asc';
+            $order = (request('order') === "asc" || request('order') === "desc") ? request('order') : "asc";
 
             if (request('sort') == 'station') {
                 $stations->orderBy('station_name', $order);
@@ -50,7 +51,26 @@ class StationController extends Controller
                 $stations->orderBy('current_level', $order);
             }
         }
+
+        if (request('latitude') && request('longitude')) {
+            $userLatitude = request('latitude');
+            $userLongitude = request('longitude');
+
+            $stations->select([
+                '*',
+                DB::raw('
+                    sqrt(
+                        pow((latitude - ?) * 111.32, 2) +
+                        pow((longitude - ?) * 111.32 * cos(latitude / 180 * pi()), 2)
+                    ) AS distance
+                '),
+            ])->addBinding([$userLatitude, $userLongitude], 'select');
+            $stations->orderBy('distance', 'asc');
+ 
+        }
+
         $stations = $stations->sortable()->paginate(10)->withQueryString();
+
 
         return view('station.index', compact('stations'))
             ->with('i', (request()->input('page', 1) - 1) * 5);
