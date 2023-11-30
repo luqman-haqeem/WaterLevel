@@ -25,7 +25,7 @@ class StationController extends Controller
 
         if (request('term')) {
             $term = strtoupper(request('term'));
-            $stations->where('station_name', 'Like', "%$term%");
+            $stations->where('station_name', 'ilike', "%$term%");
         }
         // sort
 

@@ -27,7 +27,7 @@ class CameraController extends Controller
         if (request('term')) {
             $term = strtoupper(request('term'));
 
-            $cameras->where('camera_name', 'Like', "%$term%");
+            $cameras->where('camera_name', 'ilike', "%$term%");
         }
         // sort
         if (request('sort')) {
