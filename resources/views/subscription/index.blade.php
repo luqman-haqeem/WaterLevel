@@ -99,7 +99,7 @@
                         </div> --}}
                         <div class="list-group">
                             @foreach ($subscriptions as $subscription)
-                                <a href="{{ route('stations.show', $subscription->id) }}"
+                                <a href="{{ route('stations.show', $subscription->station_id) }}"
                                     class="list-group-item list-group-item-action">
                                     <div class="d-flex w-100 justify-content-between">
                                         <h5 class="mb-1">{{ $subscription->station->station_name }}</h5>
@@ -107,14 +107,14 @@
                                             class="text-muted">{{ $subscription->station->current_level->updated_at->diffForHumans() }}</small>
                                     </div>
                                     <p class="mb-1">{{ $subscription->station->district->name }}</p>
-                                    <small class="text-muted"> Water Level:
-                                        {{ $subscription->station->current_level->current_level }}m
+                                   
+                                    <small> Water Level: {{ $subscription->current_level }}m
 
-                                        @if ($subscription->station->current_level->current_levels >= $subscription->station->danger_water_level)
+                                        @if ($subscription->current_level >= $subscription->danger_water_level)
                                             <span class="badge bg-danger" id="alert-badge">Danger</span>
-                                        @elseif($subscription->station->current_level->current_levels >= $subscription->station->warning_water_level)
+                                        @elseif($subscription->current_level >= $subscription->warning_water_level)
                                             <span class="badge bg-orange" id="alert-badge">Warning</span>
-                                        @elseif($subscription->station->current_level->current_levels >= $subscription->station->alert_water_level)
+                                        @elseif($subscription->current_level >= $subscription->alert_water_level)
                                             <span class="badge bg-warning" id="alert-badge">Alert</span>
                                         @else
                                             <span class="badge bg-info" id="alert-badge">Normal</span>
