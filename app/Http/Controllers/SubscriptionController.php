@@ -23,6 +23,8 @@ class SubscriptionController extends Controller
         $subscriptions->where('user_id', Auth::id());
 
         if (request('term')) {
+            $term = strtoupper(request('term'));
+            $station_id = Station::where('station_name', 'ilike', "%$term%")->pluck('id');
 
             $station_id = Station::where('station_name', 'Like', '%' . request('term') . '%')->first()->id;
             $subscriptions->where('station_id', 'Like', '%' . $station_id . '%');
