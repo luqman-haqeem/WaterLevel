@@ -1,0 +1,14 @@
+version: '3'
+services:
+
+  portal:
+    build:
+      context: .
+    environment:
+      APP_ENV: ${APP_ENV}
+      APP_DEBUG: ${APP_DEBUG}
+    volumes:
+      - ${PWD}:/var/www/html
+    ports:
+      - "8080:80"
+      - "8181:443"
