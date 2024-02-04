@@ -18,3 +18,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::get('/current-level/update', [App\Http\Controllers\API\CronController::class, 'update']);
+
+Route::get('/station-info/update', [App\Http\Controllers\API\CronController::class, 'updateStationInfo']);
