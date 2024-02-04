@@ -21,14 +21,37 @@ class SubscriptionController extends Controller
         //
         $subscriptions = Subscription::query();
         $subscriptions->where('user_id', Auth::id());
+        $subscriptions->join('stations', 'stations.id', 'subscriptions.station_id');
+        $subscriptions->join('current_levels', 'current_levels.station_id', '=', 'stations.id');
 
         if (request('term')) {
             $term = strtoupper(request('term'));
             $station_id = Station::where('station_name', 'ilike', "%$term%")->pluck('id');
-
-            $station_id = Station::where('station_name', 'Like', '%' . request('term') . '%')->first()->id;
-            $subscriptions->where('station_id', 'Like', '%' . $station_id . '%');
+            
+            $subscriptions->whereIn('station_id', $station_id);
         }
+        if (request('filter')) {
+            if (request('filter') == 'danger') {
+                $subscriptions->where('alert_level', 3);
+            } else if (request('filter') == 'alert') {
+                $subscriptions->where('alert_level', 2);
+            } else if (request('filter') == 'warning') {
+                $subscriptions->where('alert_level', 1);
+            }
+        }
+        if (request('sort')) {
+
+            $order = (request('order') === "asc" || request('order') === "desc") ? request('order') : "asc";
+
+            if (request('sort') == 'station') {
+                $subscriptions->orderBy('stations.station_name', $order);
+            } else if (request('sort') == 'district') {
+                $subscriptions->orderBy('stations.district_id', $order);
+            } else if (request('sort') == 'water-level') {
+                $subscriptions->orderBy('current_levels.current_level', $order);
+            }
+        }
+
         $subscriptions = $subscriptions->paginate(10);
 
         return view('subscription.index', compact('subscriptions'))

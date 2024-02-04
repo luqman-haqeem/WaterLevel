@@ -10,7 +10,28 @@ use Kyslik\ColumnSortable\Sortable;
 class Station extends Model
 {
     use HasFactory, Sortable;
+    protected $fillable = [
+        'JPS_sel_id',
+        'public_info_id',
+        'district_id',
+        'station_name',
+        'station_code',
+        'ref_name',
+        'latitude',
+        'longitude',
+        'gsmNumber',
+        'normal_water_level',
+        'alert_water_level',
+        'warning_water_level',
+        'danger_water_level',
+        'station_status',
+        'mode',
+        'z1',
+        'z2',
+        'z3',
+        'battery_level',
 
+    ];
     public $sortable = ['id', 'station_name', 'district_id'];
 
     public function current_level()

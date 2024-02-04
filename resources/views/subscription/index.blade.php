@@ -7,11 +7,11 @@
             <div class="col-md-10">
                 <div class="card">
                     <div class="card-header">{{ __('Favorite Station') }}
-                        <div class="float-end">
+                        {{-- <div class="float-end">
                             <a class="btn btn-outline-success" href="{{ route('subscriptions.create') }}">
                                 {{ __('Add Station') }}
                             </a>
-                        </div>
+                        </div> --}}
                     </div>
 
                     <div class="card-body">
@@ -33,23 +33,72 @@
                         <div class="row pb-3">
 
                             <div class="d-flex ">
-                                {{-- <div class="me-auto">
-                                    <div class="dropdown">
+                                <div class="me-auto pe-1">
+                                    <button type="button" id="location-btn" onclick="detectLocation()"
+                                        class="btn btn-outline-success d-inline">
+                                        <i class="bi bi-geo-alt"></i>
+                                    </button>
+                                    <div class="dropdown d-inline">
                                         <button class="btn btn-outline-primary dropdown-toggle" type="button"
                                             id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                                             Sort By
                                         </button>
                                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                            <li><a class="dropdown-item"
-                                                    href="{{ route('subscriptions.index') . '?sort=station&order=asc' }}">Name
+                                            <li><a class="dropdown-item 
+                                                @if (request()->query('sort') == 'station' && request()->query('order') == 'asc') active @endif "
+                                                    href="{{ request()->fullUrlWithQuery(['sort' => 'station', 'order' => 'asc']) }}">Name
                                                     (ascending)</a></li>
-                                            <li><a class="dropdown-item"
-                                                    href="{{ route('subscriptions.index') . '?sort=station&order=desc' }}">Name
+                                            <li><a class="dropdown-item
+                                                @if (request()->query('sort') == 'station' && request()->query('order') == 'desc') active @endif "
+                                                    href="{{ request()->fullUrlWithQuery(['sort' => 'station', 'order' => 'desc']) }}">Name
                                                     (desending)</a></li>
-                                            
+                                            <li><a class="dropdown-item
+                                                @if (request()->query('sort') == 'district' && request()->query('order') == 'asc') active @endif "
+                                                    href="{{ request()->fullUrlWithQuery(['sort' => 'district', 'order' => 'asc']) }}">District
+                                                    (ascending)</a></li>
+                                            <li><a class="dropdown-item
+                                                @if (request()->query('sort') == 'district' && request()->query('order') == 'desc') active @endif "
+                                                    href="{{ request()->fullUrlWithQuery(['sort' => 'district', 'order' => 'desc']) }}">District
+                                                    (desending)</a></li>
+                                            <li><a class="dropdown-item
+                                                @if (request()->query('sort') == 'water-level' && request()->query('order') == 'asc') active @endif "
+                                                    href="{{ request()->fullUrlWithQuery(['sort' => 'water-level', 'order' => 'asc']) }}">Water
+                                                    Level (ascending)</a>
+                                            </li>
+                                            <li><a class="dropdown-item
+                                                @if (request()->query('sort') == 'water-level' && request()->query('order') == 'desc') active @endif "
+                                                    href="{{ request()->fullUrlWithQuery(['sort' => 'water-level', 'order' => 'desc']) }}">Water
+                                                    Level (desending)</a>
+                                            </li>
+                                        </ul>
+
+                                        <button class="btn btn-outline-info dropdown-toggle" type="button"
+                                            id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                            Filter By
+                                        </button>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                            {{-- <li><a class="dropdown-item"
+                                                    href="{{ route('stations.index') . '?filter=favorite' }}">Favorite Only
+                                                    </a></li> --}}
+                                            <li><a class="dropdown-item @if (request()->query('filter') == '') active @endif "
+                                                    href="{{ request()->fullUrlWithQuery(['filter' => '']) }}">All
+                                                </a></li>
+                                            <li><a class="dropdown-item @if (request()->query('filter') == 'danger') active @endif "
+                                                    href="{{ request()->fullUrlWithQuery(['filter' => 'danger']) }}">Danger
+                                                    Only (Water Level)
+                                                </a></li>
+                                            <li><a class="dropdown-item @if (request()->query('filter') == 'alert') active @endif "
+                                                    href="{{ request()->fullUrlWithQuery(['filter' => 'alert']) }}">Alert
+                                                    Only (Water Level)
+                                                </a></li>
+                                            <li><a class="dropdown-item @if (request()->query('filter') == 'warning') active @endif "
+                                                    href="{{ request()->fullUrlWithQuery(['filter' => 'warning']) }}">Warning
+                                                    Only (Water Level)
+                                                </a></li>
+
                                         </ul>
                                     </div>
-                                </div> --}}
+                                </div>
                                 <div>
                                     <form class="d-flex  float-end" action="{{ route('subscriptions.index') }}"
                                         method="GET">
@@ -119,7 +168,6 @@
                                         @else
                                             <span class="badge bg-info" id="alert-badge">Normal</span>
                                         @endif
-
                                     </small>
 
                                     <div class="float-end">
