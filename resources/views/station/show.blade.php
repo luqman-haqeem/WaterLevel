@@ -53,7 +53,6 @@
                         <div class="d-flex ">
                             <h5 class="card-title flex-grow-1">{{ $station->station_name }}
 
-
                             </h5>
                             <div class="float-end">
                                 <span class="badge bg-info " id="alert-badge">{{ $station->normal_water_level }}m</span>
@@ -71,6 +70,9 @@
                         <h6 class="card-subtitle mb-2 text-muted">
                             {{ $station->district->name }}</h6>
 
+                        @if (!$station->station_status)
+                            <span class="badge rounded-pill bg-danger">Temporarily Offline</span>
+                        @else
                         <p class="card-text"> Water Level: {{ $station->current_level->current_level }}
                             @if ($station->current_level->current_level >= $station->danger_water_level)
                                 <span class="badge bg-danger" id="alert-badge">Danger</span>
@@ -84,6 +86,8 @@
                             <span class="fw-light"> {{ $station->current_level->updated_at->diffForHumans() }}</span>
 
                         </p>
+                        @endif
+                        
 
 
                     </div>
