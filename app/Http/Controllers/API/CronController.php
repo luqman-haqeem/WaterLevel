@@ -11,7 +11,7 @@ use App\Notifications\SendDangerNotification;
 use Illuminate\Support\Facades\Http;
 
 class CronController extends Controller
-{   
+{
     protected $stationURL = 'http://infobanjirjps.selangor.gov.my/JPSAPI/api/StationRiverLevels/GetWLAllStationData/';
     /**
      * Update the current water level.
@@ -43,8 +43,7 @@ class CronController extends Controller
 
             $response = curl_exec($curl);
             if (curl_errno($curl)) {
-                \Log::error('Failed to get JPs Status update'. curl_error($curl));
-
+                \Log::error('Failed to get JPs Status update' . curl_error($curl));
             }
             curl_close($curl);
             $stationsJps  = json_decode($response);
@@ -59,6 +58,8 @@ class CronController extends Controller
 
                 $currentLevel = CurrentLevel::where('station_id', $station->id)->first();
 
+
+
                 if ($stationJps->waterLevel >= $station->danger_water_level) {
                     $alert_level = 3;
                 } else if ($stationJps->waterLevel >= $station->warning_water_level) {
@@ -69,12 +70,24 @@ class CronController extends Controller
                     $alert_level = 0;
                 }
 
-                $currentLevel->update(
-                    [
-                        'current_level' => $stationJps->waterLevel,
-                        'alert_level' => $alert_level
-                    ]
-                );
+                // if  there is  no current level, create new one
+                if (empty($currentLevel)) {
+                    $newCurrentLevel = new CurrentLevel;
+                    $newCurrentLevel->station_id = $station->id;
+                    $newCurrentLevel->current_level = $stationJps->waterLevel;
+                    $newCurrentLevel->alert_level =  $alert_level;
+                    $newCurrentLevel->save();
+                    
+                } else {
+                    $currentLevel->update(
+                        [
+                            'current_level' => $stationJps->waterLevel,
+                            'alert_level' => $alert_level
+                        ]
+                    );
+                }
+
+
                 $this->blastNotification($station, $alert_level);
             }
         }
@@ -139,7 +152,7 @@ class CronController extends Controller
 
             $response = curl_exec($curl);
             if (curl_errno($curl)) {
-                \Log::error('Failed to get JPS Status update'. curl_error($curl));
+                \Log::error('Failed to get JPS Status update' . curl_error($curl));
             }
             curl_close($curl);
             $stationsJps  = json_decode($response);
