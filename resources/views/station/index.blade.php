@@ -145,6 +145,9 @@
                                     <div class="d-flex justify-content-between">
                                         <a class="custom-link flex-grow-1 text-muted"
                                             href="{{ route('stations.show', $station->id) }}">
+                                            @if (!$station->station_status)
+                                                <span class="badge rounded-pill bg-danger">Temporarily Offline</span>
+                                            @else
                                             <small> Water Level: {{ $station->current_level }}m
 
                                                 @if ($station->current_level >= $station->danger_water_level)
@@ -157,6 +160,8 @@
                                                     <span class="badge bg-info" id="alert-badge">Normal</span>
                                                 @endif
                                             </small>
+                                            @endif
+                                            
                                         </a>
                                         @if (Auth::check())
                                             @if (empty($station->favorite[0]->station_id))
