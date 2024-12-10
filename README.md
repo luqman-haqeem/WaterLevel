@@ -1,68 +1,127 @@
+# Water Level Monitoring System
 
-# Water Level
+A system to monitor river water levels in Selangor based on data from JPS Selangor.
 
-A system to monitor river water level in selangor  based on data  in JPS selangor. see [here](https://water-level.onrender.com/)
+Check it out live: [Water Level Monitoring System](https://water-level.onrender.com/)
 
-## 💻 Tech Stack:
-![Laravel](https://img.shields.io/badge/laravel-%23FF2D20.svg?style=for-the-badge&logo=laravel&logoColor=white) 
+---
 
-![Postgres](https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white)
+## 🚨 Notice: Deprecated Project
 
+Due to limitations with hosting on Render.com's free plan (e.g., server shutdown after 15 minutes of inactivity and slow restarts), this project has been rewritten using the Next.js framework and deployed to Vercel for better performance and reliability.
 
-# Getting started
+New Repository: [Next.js Version](https://github.com/luqman-haqeem/water-level)
 
-## Installation
+---
 
-Please check the official laravel installation guide for server requirements before you start. [Official Documentation](https://laravel.com/docs/5.4/installation#installation)
+## 💻 Tech Stack
 
+![Laravel](https://img.shields.io/badge/laravel-%23FF2D20.svg?style=for-the-badge&logo=laravel&logoColor=white)
 
-Clone the repository
+![Mysql](https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white)
 
-    git clone <repo-link>
+---
 
-Switch to the repo folder
+## 🚀 Getting Started
 
-    cd <project-name>
+### Prerequisites
 
-Install all the dependencies using composer
+Ensure you have the following installed before starting:
 
-    composer install
+-   PHP 7.4 or higher
 
-Copy the example env file and make the required configuration changes in the .env file
+-   Composer
 
-    cp .env.example .env
+-   A database server (Mysql is recommended)
 
-Generate a new application key
+-   Node.js and npm (optional, for frontend tasks)
 
-    php artisan key:generate
+Refer to the [Laravel Server Requirements](https://laravel.com/docs/5.4/installation#server-requirements) for more details.
 
-Run the database migrations (**Set the database connection in .env before migrating**)
+---
 
-    php artisan migrate
+### Installation
 
-Start the local development server
+1. Clone the repository:
 
-    php artisan serve
+```bash
 
-You can now access the server at http://localhost:8000
+git clone <repo-link>
 
-    
-**Make sure you set the correct database connection information before running the migrations** [Environment variables](#environment-variables)
+```
 
-    php artisan migrate
-    php artisan serve
+2. Navigate to the project directory:
 
-## Database seeding
+```bash
 
-**Populate the database with seed data with relationships which includes users, station, district and camera.**
+cd <project-name>
 
+```
 
-Run the database seeder and you're done
+3. Install dependencies:
 
-    php artisan db:seed
+```bash
 
-***Note*** : It's recommended to have a clean database before seeding. You can refresh your migrations at any point to clean the database by running the following command
+composer install
 
-    php artisan migrate:refresh
-    
+```
 
+4. Copy the example environment file and update it with your configuration:
+
+```bash
+
+cp .env.example .env
+
+```
+
+5. Generate a new application key:
+
+```bash
+
+php artisan key:generate
+
+```
+
+6. Set up the database:
+
+-   Update the `.env` file with your database credentials.
+
+-   Run the migrations to create the necessary tables:
+
+```bash
+
+php artisan migrate
+
+```
+
+7. Seed the database with sample data (optional):
+
+```bash
+
+php artisan db:seed
+
+```
+
+8. Start the development server:
+
+```bash
+
+php artisan serve
+
+```
+
+The application will be available at [http://localhost:8000](http://localhost:8000).
+
+---
+
+### Database Seeding
+
+The database seeding process creates sample data, including users, stations, districts, and cameras.
+
+To seed the database:
+
+```bash
+
+php  artisan  db:seed
+
+```
